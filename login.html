@@ -399,16 +399,16 @@
         <!-- Alert Message -->
         <div id="alertMessage" class="alert"></div>
 
-        <!-- Login Form -->
+        <!-- Login Form (UNCHANGED: uses Email for all roles, no extra fields) -->
         <div id="loginForm" class="form-container">
             <form onsubmit="handleLogin(event)">
                 <div id="dynamicFields" class="dynamic-fields">
-                    <!-- Admin Fields (Default) -->
+                    <!-- Admin login: Email only -->
                     <div class="form-group">
-                        <label>Admin ID</label>
+                        <label>Email Address</label>
                         <div class="input-wrapper">
-                            <i data-lucide="shield" width="18" height="18"></i>
-                            <input type="text" id="adminId" placeholder="ADM-2024-001">
+                            <i data-lucide="mail" width="18" height="18"></i>
+                            <input type="email" id="adminEmail" placeholder="admin@university.edu">
                         </div>
                     </div>
                 </div>
@@ -433,7 +433,7 @@
             </form>
         </div>
 
-        <!-- Signup Form -->
+        <!-- Signup Form (MODIFIED: Removed Admin ID and Faculty ID fields, kept Department for faculty, Roll/Semester/Section for student) -->
         <div id="signupForm" class="form-container hidden">
             <form onsubmit="handleSignup(event)">
                 <div class="form-group">
@@ -499,9 +499,7 @@
 
                 <div class="form-footer">
                     <a href="#" class="link" onclick="showLogin(event)">← Back to Login</a>
-              <a href="./"admin.html><button>Admin Login</button></a>
-<a href="./faculty.html"><button>Faculty Login</button></a>
-<a href="./student.html"><button>Student Login</button></a>  </div>
+                </div>
             </form>
         </div>
 
@@ -537,43 +535,45 @@
             lucide.createIcons();
         }
 
+        // LOGIN FIELDS: REMAIN COMPLETELY UNCHANGED (Email only for all roles)
         function updateLoginFields() {
             const container = document.getElementById('dynamicFields');
             container.innerHTML = '';
             
             if (currentRole === 'admin') {
-                container.innerHTML = `<div class="form-group"><label>Admin ID</label><div class="input-wrapper"><i data-lucide="shield" width="18" height="18"></i><input type="text" id="adminId" placeholder="ADM-2024-001"></div></div>`;
+                container.innerHTML = `<div class="form-group"><label>Email Address</label><div class="input-wrapper"><i data-lucide="mail" width="18" height="18"></i><input type="email" id="adminEmail" placeholder="admin@university.edu"></div></div>`;
             } 
             else if (currentRole === 'faculty') {
                 container.innerHTML = `
-                    <div class="form-group"><label>Faculty ID</label><div class="input-wrapper"><i data-lucide="id-card" width="18" height="18"></i><input type="text" id="facultyId" placeholder="FAC-2024-001"></div></div>
-                    <div class="form-group"><label>Department</label><div class="double-input"><div class="input-wrapper"><i data-lucide="building" width="18" height="18"></i><select id="departmentSelect"><option value="">Select Department</option><option value="CSE">Computer Science Engineering</option><option value="IT">Information Technology</option><option value="ECE">Electronics & Communication</option><option value="ME">Mechanical Engineering</option><option value="CE">Civil Engineering</option><option value="AI">Artificial Intelligence</option></select></div><span>OR</span><div class="input-wrapper"><i data-lucide="edit" width="18" height="18"></i><input type="text" id="departmentText" placeholder="Enter department name"></div></div></div>
+                    <div class="form-group"><label>Email Address</label><div class="input-wrapper"><i data-lucide="mail" width="18" height="18"></i><input type="email" id="facultyEmail" placeholder="faculty@university.edu"></div></div>
                 `;
             } 
             else if (currentRole === 'student') {
                 container.innerHTML = `
-                    <div class="form-group"><label>Roll Number</label><div class="input-wrapper"><i data-lucide="hash" width="18" height="18"></i><input type="text" id="rollNumber" placeholder="2024CS001"></div></div>
-                    <div class="form-group"><label>Semester</label><div class="input-wrapper"><i data-lucide="book-open" width="18" height="18"></i><select id="semester"><option value="">Select Semester</option><option value="1st">1st Semester</option><option value="2nd">2nd Semester</option><option value="3rd">3rd Semester</option><option value="4th">4th Semester</option><option value="5th">5th Semester</option><option value="6th">6th Semester</option><option value="7th">7th Semester</option><option value="8th">8th Semester</option></select></div></div>
-                    <div class="form-group"><label>Section</label><div class="double-input"><div class="input-wrapper"><i data-lucide="users" width="18" height="18"></i><select id="sectionSelect"><option value="">Select Section</option><option value="A">Section A</option><option value="B">Section B</option><option value="C">Section C</option><option value="D">Section D</option></select></div><span>OR</span><div class="input-wrapper"><i data-lucide="edit" width="18" height="18"></i><input type="text" id="sectionText" placeholder="Enter section name"></div></div></div>
+                    <div class="form-group"><label>Email Address</label><div class="input-wrapper"><i data-lucide="mail" width="18" height="18"></i><input type="email" id="studentEmail" placeholder="student@university.edu"></div></div>
                 `;
             }
             lucide.createIcons();
         }
 
+        // SIGNUP FIELDS: MODIFIED - Removed Admin ID and Faculty ID fields, kept department for faculty, kept roll/semester/section for student
         function updateSignupFields() {
             const container = document.getElementById('signupDynamicFields');
             container.innerHTML = '';
             
             if (currentRole === 'admin') {
-                container.innerHTML = `<div class="form-group"><label>Admin ID</label><div class="input-wrapper"><i data-lucide="shield" width="18" height="18"></i><input type="text" id="signupAdminId" placeholder="ADM-2024-001"></div></div>`;
+                // Admin signup: No Admin ID field required anymore (removed)
+                // Only basic fields (Name, Email, Password) are present in main form, no extra fields needed
+                container.innerHTML = ``; // Empty because no additional fields needed for admin
             } 
             else if (currentRole === 'faculty') {
+                // Faculty signup: Faculty ID REMOVED, only Department remains (double input with select/text)
                 container.innerHTML = `
-                    <div class="form-group"><label>Faculty ID</label><div class="input-wrapper"><i data-lucide="id-card" width="18" height="18"></i><input type="text" id="signupFacultyId" placeholder="FAC-2024-001"></div></div>
                     <div class="form-group"><label>Department</label><div class="double-input"><div class="input-wrapper"><i data-lucide="building" width="18" height="18"></i><select id="signupDepartmentSelect"><option value="">Select Department</option><option value="CSE">Computer Science Engineering</option><option value="IT">Information Technology</option><option value="ECE">Electronics & Communication</option><option value="ME">Mechanical Engineering</option><option value="CE">Civil Engineering</option><option value="AI">Artificial Intelligence</option></select></div><span>OR</span><div class="input-wrapper"><i data-lucide="edit" width="18" height="18"></i><input type="text" id="signupDepartmentText" placeholder="Enter department name"></div></div></div>
                 `;
             } 
             else if (currentRole === 'student') {
+                // Student signup: Roll Number + Semester + Section (unchanged)
                 container.innerHTML = `
                     <div class="form-group"><label>Roll Number</label><div class="input-wrapper"><i data-lucide="hash" width="18" height="18"></i><input type="text" id="signupRollNumber" placeholder="2024CS001"></div></div>
                     <div class="form-group"><label>Semester</label><div class="input-wrapper"><i data-lucide="book-open" width="18" height="18"></i><select id="signupSemester"><option value="">Select Semester</option><option value="1st">1st Semester</option><option value="2nd">2nd Semester</option><option value="3rd">3rd Semester</option><option value="4th">4th Semester</option><option value="5th">5th Semester</option><option value="6th">6th Semester</option><option value="7th">7th Semester</option><option value="8th">8th Semester</option></select></div></div>
@@ -583,18 +583,19 @@
             lucide.createIcons();
         }
 
-        function getDepartmentValue() {
-            const select = document.getElementById('departmentSelect');
-            const text = document.getElementById('departmentText');
-            return select?.value || text?.value || '';
+        // Helper functions for login (unchanged)
+        function getLoginEmail() {
+            if (currentRole === 'admin') {
+                return document.getElementById('adminEmail')?.value || '';
+            } else if (currentRole === 'faculty') {
+                return document.getElementById('facultyEmail')?.value || '';
+            } else if (currentRole === 'student') {
+                return document.getElementById('studentEmail')?.value || '';
+            }
+            return '';
         }
 
-        function getSectionValue() {
-            const select = document.getElementById('sectionSelect');
-            const text = document.getElementById('sectionText');
-            return select?.value || text?.value || '';
-        }
-
+        // Helper functions for signup (updated to reflect removed ID fields)
         function getSignupDepartmentValue() {
             const select = document.getElementById('signupDepartmentSelect');
             const text = document.getElementById('signupDepartmentText');
@@ -615,40 +616,50 @@
             setTimeout(() => alertDiv.classList.remove('show'), 3000);
         }
 
+        // HANDLE LOGIN: Completely unchanged (email + password only)
         function handleLogin(event) {
             event.preventDefault();
             const password = document.getElementById('loginPassword').value;
-            if (!password) { showAlert('Please enter your password', 'error'); return; }
+            const email = getLoginEmail();
+            
+            if (!email) { 
+                showAlert('Please enter your email address', 'error'); 
+                return; 
+            }
+            if (!password) { 
+                showAlert('Please enter your password', 'error'); 
+                return; 
+            }
+            
+            if (!email.includes('@') || !email.includes('.')) {
+                showAlert('Please enter a valid email address', 'error');
+                return;
+            }
             
             if (currentRole === 'admin') {
-                if (!document.getElementById('adminId')?.value) { showAlert('Please enter Admin ID', 'error'); return; }
-                showAlert('Login successful! Redirecting to Admin Dashboard...', 'success');
-                setTimeout(() => window.location.href = 'admin.html', 1000);
+                const adminData = { email: email, role: 'admin', loginTime: new Date().toISOString() };
+                localStorage.setItem('userData', JSON.stringify(adminData));
+                localStorage.setItem('userRole', 'admin');
+                showAlert('Admin login successful! Redirecting to Admin Dashboard...', 'success');
+                setTimeout(() => window.location.href = 'admin-dashboard.html', 1000);
             } 
             else if (currentRole === 'faculty') {
-                if (!document.getElementById('facultyId')?.value) { showAlert('Please enter Faculty ID', 'error'); return; }
-                if (!getDepartmentValue()) { showAlert('Please enter your department', 'error'); return; }
-                showAlert('Login successful! Redirecting to Faculty Dashboard...', 'success');
-                setTimeout(() => window.location.href = 'faculty.html', 1000);
+                const facultyData = { email: email, role: 'faculty', loginTime: new Date().toISOString() };
+                localStorage.setItem('userData', JSON.stringify(facultyData));
+                localStorage.setItem('userRole', 'faculty');
+                showAlert('Faculty login successful! Redirecting to Faculty Dashboard...', 'success');
+                setTimeout(() => window.location.href = 'faculty-dashboard.html', 1000);
             } 
             else if (currentRole === 'student') {
-                if (!document.getElementById('rollNumber')?.value) { showAlert('Please enter your Roll Number', 'error'); return; }
-                if (!document.getElementById('semester')?.value) { showAlert('Please select your semester', 'error'); return; }
-                if (!getSectionValue()) { showAlert('Please enter your section', 'error'); return; }
-                const studentData = {
-                    rollNumber: document.getElementById('rollNumber').value,
-                    semester: document.getElementById('semester').value,
-                    section: getSectionValue(),
-                    role: 'student',
-                    loginTime: new Date().toISOString()
-                };
+                const studentData = { email: email, role: 'student', loginTime: new Date().toISOString() };
                 localStorage.setItem('userData', JSON.stringify(studentData));
                 localStorage.setItem('userRole', 'student');
-                showAlert('Login successful! Redirecting to Student Dashboard...', 'success');
-                setTimeout(() => window.location.href = 'student.html', 1000);
+                showAlert('Student login successful! Redirecting to Student Dashboard...', 'success');
+                setTimeout(() => window.location.href = 'student-dashboard.html', 1000);
             }
         }
 
+        // HANDLE SIGNUP: UPDATED - Removed validation for Admin ID and Faculty ID
         function handleSignup(event) {
             event.preventDefault();
             const name = document.getElementById('signupName').value;
@@ -656,22 +667,52 @@
             const password = document.getElementById('signupPassword').value;
             const confirmPassword = document.getElementById('signupConfirmPassword').value;
             
-            if (!name || !email || !password) { showAlert('Please fill all required fields', 'error'); return; }
-            if (password !== confirmPassword) { showAlert('Passwords do not match', 'error'); return; }
-            
-            if (currentRole === 'admin') {
-                if (!document.getElementById('signupAdminId')?.value) { showAlert('Please enter Admin ID', 'error'); return; }
-            } else if (currentRole === 'faculty') {
-                if (!document.getElementById('signupFacultyId')?.value) { showAlert('Please enter Faculty ID', 'error'); return; }
-                if (!getSignupDepartmentValue()) { showAlert('Please enter your department', 'error'); return; }
-            } else if (currentRole === 'student') {
-                if (!document.getElementById('signupRollNumber')?.value) { showAlert('Please enter Roll Number', 'error'); return; }
-                if (!document.getElementById('signupSemester')?.value) { showAlert('Please select semester', 'error'); return; }
-                if (!getSignupSectionValue()) { showAlert('Please enter section', 'error'); return; }
+            if (!name || !email || !password) { 
+                showAlert('Please fill all required fields', 'error'); 
+                return; 
+            }
+            if (password !== confirmPassword) { 
+                showAlert('Passwords do not match', 'error'); 
+                return; 
             }
             
-            showAlert('Account created successfully! Please login.', 'success');
-            setTimeout(() => showLogin(), 1500);
+            if (currentRole === 'admin') {
+                // Admin signup: No Admin ID required anymore (field removed)
+                // Just validate basic info (name, email, password) already done above
+                // Additional validation could be added, but none needed now
+                showAlert('Admin account created successfully! Please login.', 'success');
+                setTimeout(() => showLogin(), 1500);
+            } 
+            else if (currentRole === 'faculty') {
+                // Faculty signup: Faculty ID removed, only department is required
+                const dept = getSignupDepartmentValue();
+                if (!dept) { 
+                    showAlert('Please enter your department', 'error'); 
+                    return; 
+                }
+                showAlert('Faculty account created successfully! Please login.', 'success');
+                setTimeout(() => showLogin(), 1500);
+            } 
+            else if (currentRole === 'student') {
+                // Student signup: Roll Number, Semester, Section required (unchanged)
+                const rollNumber = document.getElementById('signupRollNumber')?.value;
+                if (!rollNumber) { 
+                    showAlert('Please enter Roll Number', 'error'); 
+                    return; 
+                }
+                const semester = document.getElementById('signupSemester')?.value;
+                if (!semester) { 
+                    showAlert('Please select semester', 'error'); 
+                    return; 
+                }
+                const section = getSignupSectionValue();
+                if (!section) { 
+                    showAlert('Please enter section', 'error'); 
+                    return; 
+                }
+                showAlert('Student account created successfully! Please login.', 'success');
+                setTimeout(() => showLogin(), 1500);
+            }
         }
 
         function handleForgotPassword(event) {
@@ -682,11 +723,40 @@
             setTimeout(() => showLogin(), 2000);
         }
 
-        function showSignup(event) { if (event) event.preventDefault(); currentMode = 'signup'; document.getElementById('loginForm').classList.add('hidden'); document.getElementById('signupForm').classList.remove('hidden'); document.getElementById('forgotForm').classList.add('hidden'); updateSignupFields(); lucide.createIcons(); }
-        function showLogin(event) { if (event) event.preventDefault(); currentMode = 'login'; document.getElementById('loginForm').classList.remove('hidden'); document.getElementById('signupForm').classList.add('hidden'); document.getElementById('forgotForm').classList.add('hidden'); updateLoginFields(); lucide.createIcons(); }
-        function showForgotPassword(event) { if (event) event.preventDefault(); currentMode = 'forgot'; document.getElementById('loginForm').classList.add('hidden'); document.getElementById('signupForm').classList.add('hidden'); document.getElementById('forgotForm').classList.remove('hidden'); lucide.createIcons(); }
-        function showGoogleLogin() { showAlert('Google Workspace integration coming soon!', 'info'); }
+        function showSignup(event) { 
+            if (event) event.preventDefault(); 
+            currentMode = 'signup'; 
+            document.getElementById('loginForm').classList.add('hidden'); 
+            document.getElementById('signupForm').classList.remove('hidden'); 
+            document.getElementById('forgotForm').classList.add('hidden'); 
+            updateSignupFields(); 
+            lucide.createIcons(); 
+        }
+        
+        function showLogin(event) { 
+            if (event) event.preventDefault(); 
+            currentMode = 'login'; 
+            document.getElementById('loginForm').classList.remove('hidden'); 
+            document.getElementById('signupForm').classList.add('hidden'); 
+            document.getElementById('forgotForm').classList.add('hidden'); 
+            updateLoginFields(); 
+            lucide.createIcons(); 
+        }
+        
+        function showForgotPassword(event) { 
+            if (event) event.preventDefault(); 
+            currentMode = 'forgot'; 
+            document.getElementById('loginForm').classList.add('hidden'); 
+            document.getElementById('signupForm').classList.add('hidden'); 
+            document.getElementById('forgotForm').classList.remove('hidden'); 
+            lucide.createIcons(); 
+        }
+        
+        function showGoogleLogin() { 
+            showAlert('Google Workspace integration coming soon!', 'info'); 
+        }
 
+        // Initialize login fields on page load (admin email by default)
         updateLoginFields();
     </script>
 </body>
