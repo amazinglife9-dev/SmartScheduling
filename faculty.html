@@ -1,653 +1,800 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSE Department - Complete Management System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <title>CSE Department - Admin Panel | Complete Management System</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', 'Segoe UI', 'Roboto', sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
             padding: 20px;
+            min-height: 100vh;
+            color: #f1f5f9;
         }
-        
+
+        .admin-nav {
+            max-width: 1400px;
+            margin: 0 auto 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 60px;
+            padding: 8px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #cbd5e6;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 40px;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: linear-gradient(135deg, #facc15, #f59e0b);
+            color: #0f172a;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        /* Header */
+
         .header {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            border-radius: 24px;
-            padding: 20px 30px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .header h1 {
+            background: linear-gradient(135deg, #0f2b3d, #071a2b);
             color: white;
-            font-size: 24px;
-            font-weight: 700;
+            padding: 25px 30px;
+            text-align: center;
         }
-        
-        .header h1 span {
-            background: linear-gradient(135deg, #facc15, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .header-actions { display: flex; gap: 15px; align-items: center; }
-        
-        .notification-bell {
-            position: relative;
-            cursor: pointer;
-            background: rgba(255,255,255,0.1);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+
+        .section-selector {
+            padding: 20px 25px 0;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-        .notification-bell:hover { background: rgba(255,255,255,0.2); }
-        .notification-bell i { color: white; font-size: 20px; }
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ef4444;
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-        
-        .profile-section { position: relative; cursor: pointer; }
-        .profile-trigger {
-            display: flex;
-            align-items: center;
             gap: 12px;
-            background: rgba(255,255,255,0.1);
-            padding: 8px 16px 8px 12px;
-            border-radius: 50px;
-            transition: all 0.3s;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .profile-trigger:hover { background: rgba(255,255,255,0.2); }
-        .profile-avatar {
-            width: 36px;
-            height: 36px;
+
+        .section-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #cbd5e6;
+            padding: 10px 28px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 30px;
+        }
+
+        .section-btn.active {
             background: linear-gradient(135deg, #facc15, #f59e0b);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
             color: #0f172a;
         }
-        .profile-name { color: white; font-weight: 500; }
-        .profile-name small { font-size: 11px; color: #94a3b8; display: block; }
-        
-        /* Dropdowns */
-        .profile-dropdown, .notification-dropdown {
-            position: absolute;
-            top: 60px;
-            right: 0;
-            width: 320px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            overflow: hidden;
+
+        .send-all-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 10px 24px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .panel {
             display: none;
-            z-index: 1000;
+            padding: 25px;
         }
-        .profile-dropdown.show, .notification-dropdown.show { display: block; animation: slideDown 0.3s ease; }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .dropdown-header {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            padding: 20px;
-            text-align: center;
-            color: white;
+
+        .panel.active {
+            display: block;
         }
-        .dropdown-avatar {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #facc15, #f59e0b);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            font-weight: 700;
-            margin: 0 auto 12px;
-        }
-        .dropdown-name { font-size: 18px; font-weight: 700; }
-        .dropdown-email { font-size: 12px; opacity: 0.7; margin-top: 4px; }
-        .dropdown-role { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; margin-top: 10px; }
-        
-        .dropdown-menu { padding: 10px 0; }
-        .dropdown-item { padding: 12px 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background 0.2s; color: #1e293b; }
-        .dropdown-item:hover { background: #f1f5f9; }
-        .dropdown-item i { width: 24px; color: #f59e0b; }
-        .dropdown-divider { height: 1px; background: #e2e8f0; margin: 8px 0; }
-        .logout-item { color: #ef4444; }
-        .logout-item i { color: #ef4444; }
-        
-        .notification-header { padding: 15px 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
-        .notification-header h4 { font-size: 16px; font-weight: 700; }
-        .notification-actions { display: flex; gap: 12px; }
-        .mark-read-btn, .delete-all-btn { font-size: 12px; cursor: pointer; }
-        .mark-read-btn { color: #f59e0b; }
-        .delete-all-btn { color: #ef4444; }
-        .notification-list { max-height: 400px; overflow-y: auto; }
-        .notification-item { padding: 15px 20px; border-bottom: 1px solid #f1f5f9; position: relative; cursor: pointer; }
-        .notification-item:hover { background: #f8fafc; }
-        .notification-item.unread { background: #fef3c7; }
-        .notification-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; padding-right: 50px; }
-        .notification-message { font-size: 12px; color: #64748b; margin-bottom: 6px; padding-right: 50px; }
-        .notification-time { font-size: 10px; color: #94a3b8; }
-        .delete-notif-btn { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #ef4444; cursor: pointer; font-size: 14px; padding: 5px; border-radius: 50%; }
-        .delete-notif-btn:hover { background: #fee2e2; }
-        
-        /* Tabs */
-        .tabs { display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
-        .tab-btn {
-            background: white;
-            border: none;
-            padding: 12px 32px;
-            border-radius: 50px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .tab-btn.active { background: #facc15; color: #0f172a; }
-        
-        /* Section Selector */
-        .section-selector {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            background: white;
-            padding: 15px 20px;
-            border-radius: 60px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            align-items: center;
-        }
-        .section-btn {
-            background: #f1f5f9;
-            border: none;
-            padding: 10px 28px;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .section-btn.active { background: #facc15; color: #0f172a; }
-        .add-section-btn {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .delete-section-btn {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .action-buttons { display: flex; gap: 12px; margin-left: auto; }
-        .btn-save { background: #10b981; color: white; border: none; padding: 10px 24px; border-radius: 40px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        .btn-copy { background: #3b82f6; color: white; border: none; padding: 10px 24px; border-radius: 40px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        
-        /* Timetable */
-        .timetable-wrapper {
-            background: white;
-            border-radius: 24px;
-            padding: 20px;
+
+        .timetable-section {
             overflow-x: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
-        .timetable { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1000px; }
-        .timetable th, .timetable td { border: 1px solid #e2e8f0; padding: 12px 8px; text-align: center; vertical-align: middle; }
-        .timetable th { background: #f8fafc; font-weight: 700; color: #0f172a; }
-        .timetable td { cursor: pointer; transition: background 0.2s; }
-        .timetable td:hover { background: #fef3c7; }
-        .day-col { background: #f1f5f9; font-weight: 700; width: 70px; }
-        
+
+        .timetable {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            min-width: 1100px;
+        }
+
+        .timetable th, .timetable td {
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            padding: 10px 6px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .timetable th {
+            background: linear-gradient(135deg, #1e3a5f, #0f2a44);
+            color: #e2e8f0;
+        }
+
+        .day-col {
+            background: linear-gradient(135deg, #2d3b52, #1e2a3a) !important;
+            font-weight: 800;
+        }
+
         /* Color Classes */
-        .bg-oopj { background: #FFF2CC; }
-        .bg-tafl { background: #FCE4D6; }
-        .bg-os { background: #CCEEFF; }
-        .bg-say { background: #D5E8CF; }
-        .bg-uhvp { background: #FFD9B3; }
-        .bg-cys { background: #E1D5E7; }
-        .bg-dsj { background: #FFFFFF; }
-        .bg-maths { background: #E2E3E5; }
-        .bg-lunch { background: #FFEBCC; }
-        .bg-apt { background: #C9E4DE; }
-        .bg-edited { background: #FFE0B5; position: relative; }
-        
-        .edit-input { width: 100%; padding: 6px; border: 2px solid #facc15; border-radius: 8px; font-size: 11px; }
-        .edit-buttons { display: flex; gap: 5px; margin-top: 5px; justify-content: center; }
-        .save-btn, .cancel-btn { padding: 4px 12px; border-radius: 20px; font-size: 10px; cursor: pointer; border: none; }
-        .save-btn { background: #10b981; color: white; }
-        .cancel-btn { background: #ef4444; color: white; }
-        
-        /* Faculty Table */
-        .faculty-wrapper { background: white; border-radius: 24px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-        .faculty-table { width: 100%; border-collapse: collapse; }
-        .faculty-table th, .faculty-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e2e8f0; }
-        .faculty-table th { background: #f8fafc; font-weight: 700; }
-        .faculty-table tr:hover { background: #fef3c7; }
-        .delete-faculty-btn { background: #ef4444; border: none; padding: 6px 14px; border-radius: 20px; color: white; cursor: pointer; font-size: 12px; }
-        .add-faculty-btn { background: linear-gradient(135deg, #10b981, #059669); border: none; padding: 10px 24px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; }
-        .refresh-faculty-btn { background: #3b82f6; border: none; padding: 10px 24px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-left: 10px; }
-        .faculty-header { display: flex; justify-content: flex-end; margin-bottom: 20px; }
-        
-        /* Leave Portal Styles */
-        .card { background: white; border-radius: 24px; padding: 25px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-        .card h2 { color: #0f172a; font-size: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-left: 4px solid #facc15; padding-left: 15px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; color: #334155; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 12px 15px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 14px; outline: none; }
-        .form-group input:focus, .form-group textarea:focus { border-color: #facc15; box-shadow: 0 0 0 3px rgba(250,204,21,0.1); }
-        .btn-primary { background: linear-gradient(135deg, #facc15, #f59e0b); border: none; padding: 14px 28px; border-radius: 40px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; width: 100%; justify-content: center; font-size: 16px; transition: transform 0.2s; }
-        .btn-primary:hover { transform: translateY(-2px); }
-        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-        .status-pending { background: #fef3c7; color: #d97706; }
-        .status-approved { background: #d1fae5; color: #059669; }
-        .status-rejected { background: #fee2e2; color: #dc2626; }
-        .leave-card { background: #f8fafc; border-radius: 20px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #f59e0b; position: relative; }
-        .leave-card.approved { border-left-color: #10b981; }
-        .leave-card.rejected { border-left-color: #ef4444; }
-        .leave-header { display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 15px; }
-        .teacher-name { font-size: 18px; font-weight: 700; color: #0f172a; }
-        .delete-leave-btn { position: absolute; top: 15px; right: 15px; background: #ef4444; border: none; padding: 5px 12px; border-radius: 20px; color: white; cursor: pointer; font-size: 11px; display: flex; align-items: center; gap: 5px; }
-        .replacement-summary { background: #fef3c7; border-radius: 12px; padding: 15px; margin-top: 15px; }
-        .replacement-summary h4 { color: #d97706; margin-bottom: 10px; font-size: 14px; }
-        
-        .toast { position: fixed; bottom: 30px; right: 30px; background: #10b981; color: white; padding: 12px 24px; border-radius: 50px; display: none; z-index: 1100; animation: slideIn 0.3s ease; }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 2000; }
-        .modal.show { display: flex; }
-        .modal-content { background: white; border-radius: 24px; padding: 30px; width: 90%; max-width: 450px; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .close-modal { font-size: 24px; cursor: pointer; color: #94a3b8; }
-        
-        @media (max-width: 768px) {
-            .header { flex-direction: column; text-align: center; }
-            .section-selector { flex-wrap: wrap; }
-            .action-buttons { margin-left: 0; margin-top: 10px; }
+        .bg-oopj { background-color: #FFF2CC !important; color: #1e293b; }
+        .bg-tafl { background-color: #FCE4D6 !important; color: #1e293b; }
+        .bg-os { background-color: #CCEEFF !important; color: #1e293b; }
+        .bg-uhvp { background-color: #F4CCCC !important; color: #1e293b; }
+        .bg-cys { background-color: #D9EAD3 !important; color: #1e293b; }
+        .bg-dsj { background-color: #FFFFFF !important; color: #1e293b; }
+        .bg-maths { background-color: #E2E3E5 !important; color: #1e293b; }
+        .bg-lunch { background-color: #FFFFFF !important; color: #1e293b; }
+        .bg-default { background-color: #EFF3F5 !important; color: #1e293b; }
+
+        .subject-teacher-box {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            text-align: left;
         }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .action-btn {
+            padding: 3px 8px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 8px;
+            font-weight: bold;
+        }
+
+        .action-btn.leave { background: #f59e0b; color: white; }
+        .action-btn.extra { background: #10b981; color: white; }
+        .action-btn.exchange { background: #8b5cf6; color: white; }
+
+        .inline-input {
+            width: 100%;
+            padding: 6px;
+            margin-bottom: 6px;
+            border-radius: 20px;
+            border: 1px solid #f97316;
+            background: white;
+            color: #1e293b;
+            font-size: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .save-btn, .reject-btn {
+            flex: 1;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .save-btn { background: #10b981; color: white; }
+        .reject-btn { background: #ef4444; color: white; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 12px;
+            z-index: 999;
+            animation: fadeInOut 2s ease forwards;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            15% { opacity: 1; transform: translateY(0); }
+            85% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(20px); }
+        }
+
+        .faculty-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 16px;
+        }
+        .faculty-table th, .faculty-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.5);
+        }
+        .faculty-table th { background: #1e3a5f; color: #facc15; }
+
+        .leave-card {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #f59e0b;
+        }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+        .status-pending { background: #f59e0b; }
+        .status-approved { background: #10b981; }
+        .status-rejected { background: #ef4444; }
+        .approve-btn, .reject-btn { padding: 6px 16px; border: none; border-radius: 20px; cursor: pointer; }
+        .approve-btn { background: #10b981; color: white; }
+        .reject-btn { background: #ef4444; color: white; }
     </style>
 </head>
+
 <body>
+    <div class="admin-nav">
+        <button class="nav-btn active" onclick="switchPanel('timetable')">📅 Timetable</button>
+        <button class="nav-btn" onclick="switchPanel('leave')">🏖️ Teacher Leave Requests</button>
+        <button class="nav-btn" onclick="switchPanel('faculty')">👨‍🏫 Faculty Management</button>
+        <button class="nav-btn" onclick="switchPanel('sections')">📚 All Sections</button>
+    </div>
+
     <div class="container">
         <div class="header">
-            <h1>📅 CSE Department <span>Complete Management System</span></h1>
-            <div class="header-actions">
-                <div class="notification-bell" id="notificationBell"><i data-lucide="bell"></i><span class="notification-badge" id="notificationCount">0</span></div>
-                <div class="profile-section" id="profileSection">
-                    <div class="profile-trigger"><div class="profile-avatar" id="profileAvatar">A</div><div class="profile-name"><span id="profileNameText">Faculty</span><small>Management</small></div><i data-lucide="chevron-down" style="color: white; width: 16px;"></i></div>
-                </div>
+            <h1>DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING</h1>
+            <h2>ADMIN CONTROL PANEL | Manage Timetable, Leave Requests & Sections</h2>
+        </div>
+
+        <div class="section-selector">
+            <button class="section-btn" data-section="A" onclick="selectSection('A')">Section A</button>
+            <button class="section-btn" data-section="B" onclick="selectSection('B')">Section B</button>
+            <button class="section-btn" data-section="C" onclick="selectSection('C')">Section C</button>
+            <button class="section-btn active" data-section="D" onclick="selectSection('D')">Section D</button>
+            <button class="send-all-btn" onclick="sendToAllSections()">📤 Send to All Sections</button>
+        </div>
+
+        <div id="timetablePanel" class="panel active">
+            <div class="timetable-section">
+                <button style="float:right; margin-bottom:15px; background:#10b981; padding:10px 20px; border:none; border-radius:30px; color:white; cursor:pointer;" onclick="saveCurrentTimetable()">💾 Save Changes</button>
+                <div style="clear:both"></div>
+                <div style="text-align:right; margin-bottom:10px;">💡 Double-click on any cell to edit</div>
+                <table class="timetable" id="mainTimetable">
+                    <thead> <tr><th>Day</th><th>09:30-10:20</th><th>10:20-11:10</th><th>11:10-12:00</th><th>12:00-12:50</th><th>12:50-1:30</th><th>1:30-2:20</th><th>02:20-3:10</th><th>03:10-4:00</th><th>04:00-4:50</th> <tr></thead>
+                    <tbody id="timetableBody"></tbody>
+                </table>
             </div>
         </div>
-        
-        <div class="tabs">
-            <button class="tab-btn active" id="tabTimetable"><i data-lucide="calendar"></i> Timetable</button>
-            <button class="tab-btn" id="tabFaculty"><i data-lucide="users"></i> Faculty Management</button>
-            <button class="tab-btn" id="tabLeave"><i data-lucide="file-text"></i> Leave Portal</button>
+
+        <div id="leavePanel" class="panel">
+            <div id="leaveRequestsContainer"></div>
+            <button style="margin-top:20px; background:#3b82f6; padding:10px 20px; border:none; border-radius:30px; color:white; cursor:pointer;" onclick="createLeaveRequest()">➕ New Leave Request</button>
         </div>
-        
-        <!-- Timetable Section -->
-        <div id="timetableSection">
-            <div class="section-selector" id="timetableSectionSelector"></div>
-            <div class="timetable-wrapper"><table class="timetable" id="mainTimetable"><thead><tr><th>Day</th><th>09:30-10:20</th><th>10:20-11:10</th><th>11:10-12:00</th><th>12:00-12:50</th><th>12:50-1:30</th><th>1:30-2:20</th><th>02:20-3:10</th><th>03:10-4:00</th><th>04:00-4:50</th></tr></thead><tbody id="timetableBody"></tbody></table></div>
+
+        <div id="facultyPanel" class="panel">
+            <table class="faculty-table">
+                <thead> <tr><th>S.No</th><th>Code</th><th>Name</th><th>Subject</th><th>Contact</th> </thead>
+                <tbody id="facultyBody"></tbody>
+            </table>
+            <button style="margin-top:20px; background:#3b82f6; padding:10px 20px; border:none; border-radius:30px; color:white; cursor:pointer;" onclick="addNewFaculty()">➕ Add New Faculty</button>
         </div>
-        
-        <!-- Faculty Section -->
-        <div id="facultySection" style="display: none;">
-            <div class="faculty-wrapper"><div class="faculty-header"><button class="add-faculty-btn" onclick="addNewFaculty()"><i data-lucide="plus"></i> Add New Faculty</button><button class="refresh-faculty-btn" onclick="refreshFacultyTable()"><i data-lucide="refresh-cw"></i> Refresh</button></div>
-            <table class="faculty-table" id="facultyTable"><thead><tr><th>S.No.</th><th>Teacher Code</th><th>Teacher Name</th><th>Subject</th><th>Contact</th><th>Actions</th></tr></thead><tbody id="facultyBody"></tbody></table>
-            <div style="margin-top:15px;font-size:12px;color:#64748b;text-align:center;"><i data-lucide="mouse-pointer"></i> Double-click any cell to edit</div></div>
-        </div>
-        
-        <!-- Leave Portal Section -->
-        <div id="leaveSection" style="display: none;">
-            <div class="card"><h2><i data-lucide="send"></i> Submit Leave Request</h2>
-                <div class="form-group"><label>Teacher Name</label><input type="text" id="teacherName" placeholder="e.g., Mr. Amol Sharma"></div>
-                <div class="form-group"><label>Leave Period</label><div style="display:flex;gap:15px;"><input type="date" id="fromDate" style="flex:1;"><input type="date" id="toDate" style="flex:1;"></div></div>
-                <div class="form-group"><label>Reason for Leave</label><textarea id="reason" rows="2" placeholder="Reason for leave..."></textarea></div>
-                <div class="form-group"><label>Replacement Teacher (Overall)</label><input type="text" id="replacementName" placeholder="e.g., Ms. Rishu Jain"></div>
+
+        <div id="sectionsPanel" class="panel">
+            <div style="display:grid; grid-template-columns: repeat(2,1fr); gap:20px;">
+                <div id="sectionAContainer"></div><div id="sectionBContainer"></div>
+                <div id="sectionCContainer"></div><div id="sectionDContainer"></div>
             </div>
-            
-            <div class="card"><h2><i data-lucide="calendar"></i> Current Weekly Timetable <span style="font-size:12px;color:#f59e0b;">(Double-click to set replacement teacher)</span></h2>
-                <div class="section-selector" id="leaveSectionSelector"></div>
-                <div class="timetable-wrapper"><table class="timetable" id="leaveTimetable"><thead><tr><th>Day</th><th>09:30-10:20</th><th>10:20-11:10</th><th>11:10-12:00</th><th>12:00-12:50</th><th>12:50-1:30</th><th>1:30-2:20</th><th>02:20-3:10</th><th>03:10-4:00</th><th>04:00-4:50</th></tr></thead><tbody id="leaveTimetableBody"></tbody></table></div>
-                <div id="replacementSummary" class="replacement-summary" style="display:none;"><h4><i data-lucide="users"></i> Replacement Teachers Assigned:</h4><div id="replacementList"></div></div>
-                <p style="font-size:12px;color:#64748b;margin-top:12px;text-align:center;"><i data-lucide="info"></i> Double-click any class cell to set a replacement teacher for that period.</p>
-            </div>
-            
-            <button class="btn-primary" onclick="submitLeaveRequest()"><i data-lucide="send"></i> Submit Leave Request with Replacement Schedule</button>
-            
-            <div class="card" style="margin-top:25px;"><h2><i data-lucide="history"></i> My Leave Requests</h2><div id="myLeaveRequests"></div></div>
+            <button style="margin-top:20px; background:#10b981; padding:10px 20px; border:none; border-radius:30px; color:white; cursor:pointer;" onclick="saveAllSections()">💾 Save All Sections</button>
         </div>
     </div>
-    
-    <!-- Dropdowns -->
-    <div class="profile-dropdown" id="profileDropdown"><div class="dropdown-header"><div class="dropdown-avatar" id="dropdownAvatar">A</div><div class="dropdown-name" id="dropdownName">Faculty</div><div class="dropdown-email" id="dropdownEmail">Faculty@cse.edu</div><div class="dropdown-role">Management</div></div><div class="dropdown-menu"><div class="dropdown-item" onclick="openEditProfileModal()"><i data-lucide="user-edit"></i> Edit Profile</div><div class="dropdown-item" onclick="openChangePasswordModal()"><i data-lucide="key"></i> Change Password</div><div class="dropdown-divider"></div><div class="dropdown-item logout-item" onclick="logout()"><i data-lucide="log-out"></i> Logout</div></div></div>
-    
-    <div class="notification-dropdown" id="notificationDropdown"><div class="notification-header"><h4><i data-lucide="bell"></i> Notifications</h4><div class="notification-actions"><span class="mark-read-btn" onclick="markAllRead()">Mark all read</span><span class="delete-all-btn" onclick="deleteAllNotifications()">Delete all</span></div></div><div class="notification-list" id="notificationList"></div></div>
-    
-    <div id="editProfileModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>Edit Profile</h3><span class="close-modal" onclick="closeEditProfileModal()">&times;</span></div><div class="form-group"><label>Full Name</label><input type="text" id="editName"></div><div class="form-group"><label>Email</label><input type="email" id="editEmail"></div><button class="btn-primary" onclick="saveProfile()">Save Changes</button></div></div>
-    <div id="changePasswordModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>Change Password</h3><span class="close-modal" onclick="closeChangePasswordModal()">&times;</span></div><div class="form-group"><label>Current Password</label><input type="password" id="currentPassword"></div><div class="form-group"><label>New Password</label><input type="password" id="newPassword"></div><div class="form-group"><label>Confirm Password</label><input type="password" id="confirmPassword"></div><button class="btn-primary" onclick="changePassword()">Update Password</button></div></div>
-    
-    <div id="toast" class="toast"></div>
-    
+
+    <div id="exchangeModal" class="modal">
+        <div class="modal-content">
+            <h3>🔄 Exchange Class</h3>
+            <p>Select day and time slot to exchange with:</p>
+            <select id="exchangeDay"></select>
+            <select id="exchangeSlot"></select>
+            <div style="display:flex; gap:10px; margin-top:15px;">
+                <button class="save-btn" onclick="confirmExchange()">Confirm Exchange</button>
+                <button class="reject-btn" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
+        // ========== CLEAR OLD CACHE ON PAGE LOAD ==========
+        // This ensures fresh data every time you run in VS Code
+        if (window.location.href.includes('file://') || window.location.href.includes('127.0.0.1') || window.location.href.includes('localhost')) {
+            // Clear localStorage when running locally to prevent cache issues
+            localStorage.removeItem('admin_timetable_sections');
+            localStorage.removeItem('admin_faculty_list');
+            localStorage.removeItem('admin_leave_requests');
+            console.log('✅ Cache cleared for VS Code local environment');
+        }
         
-        // ========== DATA ==========
-        let sections = ['A', 'B', 'C', 'D'];
-        let currentSection = 'D';
-        let currentLeaveSection = 'D';
-        
+        // ========== SECTION C TIMETABLE (ENHANCED) ==========
+        const sectionCTimetableEnhanced = {
+            "MON": [
+                { s: "CYS", t: "RIJ", e: "", status: "normal" },
+                { s: "OOPJ", t: "AMG", e: "", status: "normal" },
+                { s: "DSJ", t: "VAK", e: "F-204", status: "normal" },
+                { s: "DSJ", t: "VAK", e: "F-204", status: "normal" },
+                { s: "LUNCH", t: "", e: "", status: "normal" },
+                { s: "UHVPE", t: "LEP", e: "", status: "normal" },
+                { s: "ESE", t: "SAT", e: "", status: "normal" },
+                { s: "PROJECT", t: "", e: "", status: "normal" },
+                { s: "PROJECT", t: "", e: "", status: "normal" }
+            ],
+            "TUE": [
+                { s: "OS", t: "NEK", e: "", status: "normal" },
+                { s: "APT", t: "DES", e: "", status: "normal" },
+                { s: "OOPJ", t: "AMG", e: "", status: "normal" },
+                { s: "TAFL", t: "PRG", e: "", status: "normal" },
+                { s: "LUNCH", t: "", e: "", status: "normal" },
+                { s: "ESE", t: "SAT", e: "", status: "normal" },
+                { s: "DSJ", t: "VAK", e: "", status: "normal" },
+                { s: "SOS", t: "PRC", e: "", status: "normal" },
+                { s: "SAY", t: "ZZZ", e: "", status: "normal" }
+            ],
+            "WED": [
+                { s: "CYS", t: "RIJ", e: "", status: "normal" },
+                { s: "TAFL", t: "PRG", e: "", status: "normal" },
+                { s: "OS", t: "NEK", e: "", status: "normal" },
+                { s: "OOPJ", t: "AMG", e: "", status: "normal" },
+                { s: "LUNCH", t: "", e: "", status: "normal" },
+                { s: "CYS", t: "RIJ", e: "", status: "normal" },
+                { s: "TAFL", t: "PRG", e: "", status: "normal" },
+                { s: "ESE", t: "SAT", e: "", status: "normal" },
+                { s: "UHVPE", t: "LEP", e: "", status: "normal" }
+            ],
+            "THU": [
+                { s: "CYS", t: "RIJ", e: "", status: "normal" },
+                { s: "OS", t: "NEK", e: "", status: "normal" },
+                { s: "OOPJ", t: "AMG", e: "", status: "normal" },
+                { s: "ESE", t: "SAT", e: "", status: "normal" },
+                { s: "LUNCH", t: "", e: "", status: "normal" },
+                { s: "DSJ", t: "VAK", e: "", status: "normal" },
+                { s: "TAFL", t: "PRG", e: "", status: "normal" },
+                { s: "CSW-G1", t: "RIJ", e: "F-404A", status: "normal" },
+                { s: "WDJ-G2", t: "NIK", e: "F-404B", status: "normal" }
+            ],
+            "FRI": [
+                { s: "ESE", t: "SAT", e: "", status: "normal" },
+                { s: "OS", t: "NEK", e: "", status: "normal" },
+                { s: "OSL-G1", t: "UMS", e: "F-404A", status: "normal" },
+                { s: "OOPJL-G2", t: "AMG", e: "F-404B", status: "normal" },
+                { s: "LUNCH", t: "", e: "", status: "normal" },
+                { s: "OSL-G2", t: "UMS", e: "F-404A", status: "normal" },
+                { s: "OOPJL-G1", t: "AMG", e: "F-404B", status: "normal" },
+                { s: "CSW-G2", t: "RIJ", e: "F-404A", status: "normal" },
+                { s: "WDJ-G1", t: "NIK", e: "F-404B", status: "normal" }
+            ],
+            "SAT": [{ s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }]
+        };
+
+        // ========== SECTION D TIMETABLE (ENHANCED) ==========
+        const sectionDTimetableEnhanced = {
+            "MON": [
+                { s: "OOPJ", t: "AMS", e: "", status: "normal" },
+                { s: "CYS / PYP", t: "RIJ / AJK", e: "F-210 / F-304", status: "normal" },
+                { s: "TAFL", t: "PRG", e: "", status: "normal" },
+                { s: "ESE / MATHS", t: "SAT / KRA", e: "F-210 / F-304", status: "normal" },
+                { s: "LUNCH", t: "", e: "", status: "normal" },
+                { s: "APT", t: "DES", e: "", status: "normal" },
+                { s: "SAY", t: "ZZZ", e: "", status: "normal" },
+                { s: "PROJECT", t: "", e: "", status: "normal" },
+                { s: "", t: "", e: "", status: "normal" }
+            ],
+            "TUE": [
+                { s: "ESE / MATHS", t: "SAT / KRA", e: "F-210 / F-304", status: "normal" },
+                { s: "TAFL", t: "PRG", e: "", status: "normal" },
+                { s: "CSW-G1", t: "MAP", e: "F-406A", status: "normal" },
+                { s: "WDJ-G2", t: "RIG", e: "F-406B", status: "normal" },
+                { s: "LUNCH", t: "", e: "", status: "normal" },
+                { s: "SOS", t: "PRC", e: "", status: "normal" },
+                { s: "OS", t: "SUS", e: "", status: "normal" },
+                { s: "CYS / PYP", t: "RIJ / AJK", e: "F-210 / F-304", status: "normal" },
+                { s: "UHVPE / TC", t: "LEP / PRC", e: "F-210 / F-304", status: "normal" }
+            ],
+            "WED": [
+                { s: "OS", t: "SUS", e: "", status: "normal" },
+                { s: "OOPJ", t: "AMS", e: "", status: "normal" },
+                { s: "OSL-G1", t: "SUS", e: "F-404A", status: "normal" },
+                { s: "OOPJL-G2", t: "RIJ", e: "F-404B", status: "normal" },
+                { s: "LUNCH", t: "", e: "", status: "normal" },
+                { s: "DSJ", t: "AMS", e: "", status: "normal" },
+                { s: "DSJ", t: "AMS", e: "", status: "normal" },
+                { s: "TAFL", t: "PRG", e: "", status: "normal" },
+                { s: "ESE / MATHS", t: "SAT / KRA", e: "F-210 / F-304", status: "normal" }
+            ],
+            "THU": [
+                { s: "OOPJ", t: "AMS", e: "", status: "normal" },
+                { s: "TAFL", t: "PRG", e: "", status: "normal" },
+                { s: "OSL-G2", t: "SUS", e: "F-404A", status: "normal" },
+                { s: "OOPJL-G1", t: "RIJ", e: "F-404B", status: "normal" },
+                { s: "LUNCH", t: "", e: "", status: "normal" },
+                { s: "CYS / PYP", t: "RIJ / AJK", e: "F-210 / F-304", status: "normal" },
+                { s: "OS", t: "SUS", e: "", status: "normal" },
+                { s: "OOPJ", t: "AMS", e: "", status: "normal" },
+                { s: "ESE / MATHS", t: "SAT / KRA", e: "F-210 / F-304", status: "normal" }
+            ],
+            "FRI": [
+                { s: "CYS / PYP", t: "RIJ / AJK", e: "F-210 / F-304", status: "normal" },
+                { s: "UHVPE / TC", t: "LEP / PRC", e: "F-210 / F-304", status: "normal" },
+                { s: "DSJ", t: "AMS", e: "F-204", status: "normal" },
+                { s: "DSJ", t: "AMS", e: "F-204", status: "normal" },
+                { s: "LUNCH", t: "", e: "", status: "normal" },
+                { s: "OS", t: "SUS", e: "", status: "normal" },
+                { s: "ESE / MATHS", t: "RIJ / AJK", e: "F-210 / F-304", status: "normal" },
+                { s: "CSW-G2", t: "MAP", e: "F-406A", status: "normal" },
+                { s: "WDJ-G1", t: "RIG", e: "F-406B", status: "normal" }
+            ],
+            "SAT": [{ s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }, { s: "", t: "", e: "", status: "normal" }]
+        };
+
+        // Standard timetable for sections A and B
         const defaultTimetable = {
-            "MON": [{ s: "OOPJ", t: "Mr. Amol Sharma", e: "" }, { s: "CYS / PYP", t: "Ms. Rishu Jain", e: "F-210" }, { s: "TAFL", t: "Mr. Prem Kishor Gautam", e: "" }, { s: "ESE / MATHS", t: "Mr. Sandeep Tyagi", e: "F-210" }, { s: "LUNCH", t: "", e: "" }, { s: "APT", t: "Mr. Deepak Sharma", e: "" }, { s: "SAY", t: "", e: "" }, { s: "PROJECT", t: "", e: "" }, { s: "", t: "", e: "" }],
-            "TUE": [{ s: "ESE / MATHS", t: "Mr. Sandeep Tyagi", e: "F-210" }, { s: "TAFL", t: "Mr. Prem Kishor Gautam", e: "" }, { s: "CSW-G1", t: "Mr. Mayank Parashar", e: "F-406A" }, { s: "WDJ-G2", t: "Ms. Ritika Garg", e: "F-406B" }, { s: "LUNCH", t: "", e: "" }, { s: "SOS", t: "Ms. Priya Chaudhary", e: "" }, { s: "OS", t: "Dr. Suneet Shukla", e: "" }, { s: "CYS / PYP", t: "Ms. Rishu Jain", e: "F-210" }, { s: "UHVPE", t: "Ms. Lekhika Prakash", e: "F-210" }],
-            "WED": [{ s: "OS", t: "Dr. Suneet Shukla", e: "" }, { s: "OOPJ", t: "Mr. Amol Sharma", e: "" }, { s: "OSL", t: "Dr. Suneet Shukla", e: "F-404A" }, { s: "OOPJL", t: "Ms. Rishu Jain", e: "F-404B" }, { s: "LUNCH", t: "", e: "" }, { s: "DSJ", t: "Mr. Amol Sharma", e: "F-204" }, { s: "DSJ", t: "Mr. Amol Sharma", e: "F-204" }, { s: "TAFL", t: "Mr. Prem Kishor Gautam", e: "" }, { s: "ESE / MATHS", t: "Mr. Sandeep Tyagi", e: "F-210" }],
-            "THU": [{ s: "OOPJ", t: "Mr. Amol Sharma", e: "" }, { s: "TAFL", t: "Mr. Prem Kishor Gautam", e: "" }, { s: "OSL", t: "Dr. Suneet Shukla", e: "F-404A" }, { s: "OOPJL", t: "Ms. Rishu Jain", e: "F-404B" }, { s: "LUNCH", t: "", e: "" }, { s: "CYS / PYP", t: "Ms. Rishu Jain", e: "F-210" }, { s: "OS", t: "Dr. Suneet Shukla", e: "" }, { s: "OOPJ", t: "Mr. Amol Sharma", e: "" }, { s: "ESE / MATHS", t: "Mr. Sandeep Tyagi", e: "F-210" }],
-            "FRI": [{ s: "CYS / PYP", t: "Ms. Rishu Jain", e: "F-210" }, { s: "UHVPE", t: "Ms. Lekhika Prakash", e: "F-210" }, { s: "DSJ", t: "Mr. Amol Sharma", e: "F-204" }, { s: "DSJ", t: "Mr. Amol Sharma", e: "F-204" }, { s: "LUNCH", t: "", e: "" }, { s: "OS", t: "Dr. Suneet Shukla", e: "" }, { s: "ESE / MATHS", t: "Ms. Rishu Jain", e: "F-210" }, { s: "CSW-G2", t: "Mr. Mayank Parashar", e: "F-406A" }, { s: "", t: "", e: "" }]
+            "MON": [{s:"TAFL",t:"MAS",e:""},{s:"UHVPE",t:"LEP",e:""},{s:"DSJ",t:"PAK",e:""},{s:"OS",t:"DEA",e:""},{s:"LUNCH",t:"",e:""},{s:"ESE",t:"SAT",e:""},{s:"CYS",t:"PRR",e:""},{s:"PROJECT",t:"",e:""},{s:"",t:"",e:""}],
+            "TUE": [{s:"OOPJ",t:"VAK",e:""},{s:"TAFL",t:"MAS",e:""},{s:"ESE",t:"SAT",e:""},{s:"CYS",t:"PRR",e:""},{s:"LUNCH",t:"",e:""},{s:"OS",t:"DEA",e:""},{s:"DSJ",t:"PAK",e:""},{s:"",t:"",e:""},{s:"",t:"",e:""}],
+            "WED": [{s:"TAFL",t:"MAS",e:""},{s:"SOS",t:"PRC",e:""},{s:"OOPJ",t:"VAK",e:""},{s:"OS",t:"DEA",e:""},{s:"LUNCH",t:"",e:""},{s:"ESE",t:"SAT",e:""},{s:"APT",t:"DES",e:""},{s:"PROJECT",t:"",e:""},{s:"",t:"",e:""}],
+            "THU": [{s:"OS",t:"DEA",e:""},{s:"TAFL",t:"MAS",e:""},{s:"CYS",t:"PRR",e:""},{s:"OOPJ",t:"VAK",e:""},{s:"LUNCH",t:"",e:""},{s:"UHVPE",t:"LEP",e:""},{s:"ESE",t:"SAT",e:""},{s:"",t:"",e:""},{s:"",t:"",e:""}],
+            "FRI": [{s:"DSJ",t:"PAK",e:"F-204"},{s:"CYS",t:"PRR",e:""},{s:"OOPJ",t:"VAK",e:""},{s:"ESE",t:"SAT",e:""},{s:"LUNCH",t:"",e:""},{s:"SAY",t:"ZZZ",e:""},{s:"",t:"",e:""},{s:"",t:"",e:""},{s:"",t:"",e:""}]
+        };
+
+        let sectionsData = {
+            A: JSON.parse(JSON.stringify(defaultTimetable)),
+            B: JSON.parse(JSON.stringify(defaultTimetable)),
+            C: JSON.parse(JSON.stringify(sectionCTimetableEnhanced)),
+            D: JSON.parse(JSON.stringify(sectionDTimetableEnhanced))
         };
         
-        let sectionsData = {};
-        for(let sec of sections) sectionsData[sec] = JSON.parse(JSON.stringify(defaultTimetable));
-        
-        let facultyList = JSON.parse(localStorage.getItem('cse_faculty_list')) || [
-            { sno: 1, code: "AMS", name: "Mr. Amol Sharma", subject: "OOPJ, DSJ", contact: "9876543219" },
-            { sno: 2, code: "PRG", name: "Mr. Prem Kishor Gautam", subject: "TAFL", contact: "9876543211" },
-            { sno: 3, code: "SUS", name: "Dr. Suneet Shukla", subject: "OS, OSL", contact: "9876543212" },
-            { sno: 4, code: "RIJ", name: "Ms. Rishu Jain", subject: "CYS, OOPJL", contact: "9876543213" }
+        let originalData = JSON.parse(JSON.stringify(sectionsData));
+        let currentSection = 'D';
+        let pendingExchange = { day: null, index: null };
+        let editingCell = null;
+
+        let facultyList = [
+            { code: "RIJ", name: "Ms. Rishu Jain", subject: "CYS, OOPJL", contact: "9876543210" },
+            { code: "AMG", name: "Mr. Amit Kumar Girdharwal", subject: "OOPJ", contact: "9876543211" },
+            { code: "VAK", name: "Mr. Varun Kumar", subject: "DSJ", contact: "9876543212" },
+            { code: "PRG", name: "Mr. Prem Kishor Gautam", subject: "TAFL", contact: "9876543213" },
+            { code: "AMS", name: "Mr. Amol Sharma", subject: "OOPJ, DSJ", contact: "9876543214" },
+            { code: "SAT", name: "Mr. Sandeep Tyagi", subject: "ESE", contact: "9876543215" }
         ];
         
-        let leaveRequests = JSON.parse(localStorage.getItem('teacherLeaveRequests')) || [];
-        let replacementEdits = {};
-        let currentEditingCellLeave = null;
-        let editingCell = null;
-        
-        let FacultyProfile = JSON.parse(localStorage.getItem('FacultyProfile')) || { name: 'Faculty', email: 'Faculty@cse.edu', avatar: 'A', password: 'Faculty123' };
-        let notifications = JSON.parse(localStorage.getItem('timetable_notifications')) || [];
-        if(notifications.length === 0) notifications = [{ id: 1, title: 'Welcome', message: 'Welcome to CSE Management System', time: new Date().toISOString(), read: false }];
-        
-        // Helper Functions
-        function showToast(msg, isError = false) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.style.backgroundColor = isError ? '#ef4444' : '#10b981'; toast.style.display = 'block'; setTimeout(() => toast.style.display = 'none', 3000); }
-        function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]); }
-        function getColorClass(subject) { if(!subject) return ''; const s = subject.toUpperCase(); if(s.includes('LUNCH')) return 'bg-lunch'; if(s.includes('OOPJ')) return 'bg-oopj'; if(s.includes('TAFL')) return 'bg-tafl'; if(s.includes('OS')) return 'bg-os'; if(s.includes('SAY')) return 'bg-say'; if(s.includes('UHVPE')) return 'bg-uhvp'; if(s.includes('CYS')) return 'bg-cys'; if(s.includes('DSJ')) return 'bg-dsj'; if(s.includes('ESE')||s.includes('MATHS')) return 'bg-maths'; if(s.includes('APT')) return 'bg-apt'; return ''; }
-        
-        // Section Management
-        function renderSectionSelector(containerId, isLeave = false) {
-            const container = document.getElementById(containerId);
-            if(!container) return;
-            container.innerHTML = '';
-            sections.forEach(sec => {
-                const btn = document.createElement('button');
-                btn.className = `section-btn ${(isLeave ? currentLeaveSection : currentSection) === sec ? 'active' : ''}`;
-                btn.innerText = `Section ${sec}`;
-                btn.onclick = () => { if(isLeave) { currentLeaveSection = sec; renderLeaveTimetable(); renderSectionSelector('leaveSectionSelector', true); } else { currentSection = sec; renderTimetable(); renderSectionSelector('timetableSectionSelector', false); } };
-                container.appendChild(btn);
-            });
-            const addBtn = document.createElement('button');
-            addBtn.className = 'add-section-btn';
-            addBtn.innerHTML = '<i data-lucide="plus"></i> Add';
-            addBtn.onclick = () => addNewSection(isLeave);
-            container.appendChild(addBtn);
-            if(sections.length > 1) {
-                const delBtn = document.createElement('button');
-                delBtn.className = 'delete-section-btn';
-                delBtn.innerHTML = '<i data-lucide="trash-2"></i> Delete';
-                delBtn.onclick = () => deleteCurrentSection(isLeave);
-                container.appendChild(delBtn);
-            }
-            setTimeout(() => lucide.createIcons(), 50);
+        let leaveRequests = [
+            { id: 1, teacher: "Mr. Varun Kumar (VAK)", fromDate: "2025-04-10", toDate: "2025-04-12", reason: "Medical Emergency", replacement: "Mr. Amol Sharma", replacementSubject: "DSJ", status: "pending", rejectionReason: "" },
+            { id: 2, teacher: "Mr. Amol Sharma (AMS)", fromDate: "2025-04-15", toDate: "2025-04-16", reason: "Conference", replacement: "Ms. Rishu Jain", replacementSubject: "OOPJ", status: "pending", rejectionReason: "" }
+        ];
+
+        function escapeHtml(str) { 
+            if(!str) return ''; 
+            let protected = str.replace(/<br\s*\/?>/gi, '___BR_TAG___'); 
+            let escaped = protected.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); 
+            return escaped.replace(/___BR_TAG___/g, '<br>'); 
         }
         
-        function addNewSection(isLeave) {
-            const newSec = String.fromCharCode(65 + sections.length);
-            sections.push(newSec);
-            sectionsData[newSec] = JSON.parse(JSON.stringify(defaultTimetable));
-            saveToStorage();
-            if(isLeave) { currentLeaveSection = newSec; renderLeaveTimetable(); renderSectionSelector('leaveSectionSelector', true); }
-            else { currentSection = newSec; renderTimetable(); renderSectionSelector('timetableSectionSelector', false); }
-            showToast(`✅ Section ${newSec} added`);
-            addNotification('Section Added', `Section ${newSec} created successfully`);
+        function showToast(msg, type='save') { 
+            let t=document.createElement('div'); 
+            t.className=`toast-msg`; 
+            t.style.background=type==='reject'?'#dc2626':type==='leave'?'#f59e0b':type==='exchange'?'#8b5cf6':'#10b981'; 
+            t.innerText=msg; 
+            document.body.appendChild(t); 
+            setTimeout(()=>t.remove(),2000); 
         }
-        
-        function deleteCurrentSection(isLeave) {
-            if(sections.length <= 1) { showToast('❌ Cannot delete the only section', true); return; }
-            const secToDelete = isLeave ? currentLeaveSection : currentSection;
-            if(confirm(`Delete Section ${secToDelete}? This cannot be undone.`)) {
-                sections = sections.filter(s => s !== secToDelete);
-                delete sectionsData[secToDelete];
-                if(isLeave) { currentLeaveSection = sections[0]; renderLeaveTimetable(); }
-                else { currentSection = sections[0]; renderTimetable(); }
-                renderSectionSelector('timetableSectionSelector', false);
-                renderSectionSelector('leaveSectionSelector', true);
-                saveToStorage();
-                showToast(`🗑️ Section ${secToDelete} deleted`);
-                addNotification('Section Deleted', `Section ${secToDelete} removed`);
-            }
+
+        function getColorClass(s) { 
+            if(!s) return "bg-default"; 
+            let u=s.toUpperCase(); 
+            if(u.includes("LUNCH")) return "bg-lunch"; 
+            if(u.includes("OOPJ")) return "bg-oopj"; 
+            if(u.includes("TAFL")) return "bg-tafl"; 
+            if(u.includes("OS")) return "bg-os"; 
+            if(u.includes("UHVPE")) return "bg-uhvp"; 
+            if(u.includes("CYS")) return "bg-cys"; 
+            if(u.includes("DSJ")) return "bg-dsj"; 
+            if(u.includes("ESE")||u.includes("MATHS")) return "bg-maths"; 
+            return "bg-default"; 
         }
-        
-        // Timetable Functions
+
+        function getStatusBadge(status) { 
+            if(status==="leave") return '<span style="background:#f59e0b; color:white; padding:2px 6px; border-radius:12px;">📝 LEAVE</span>'; 
+            if(status==="extra") return '<span style="background:#10b981; color:white; padding:2px 6px; border-radius:12px;">⭐ EXTRA</span>'; 
+            if(status==="exchange") return '<span style="background:#8b5cf6; color:white; padding:2px 6px; border-radius:12px;">🔄 EXCHANGE</span>'; 
+            return ''; 
+        }
+
         function renderTimetable() {
             const tbody = document.getElementById('timetableBody');
-            if(!tbody) return;
+            if (!tbody) return;
             tbody.innerHTML = '';
-            const days = ['MON','TUE','WED','THU','FRI'];
+            const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
             const data = sectionsData[currentSection];
-            days.forEach(day => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td class="day-col">${day}${'<\/td>'}`;
-                for(let i=0;i<9;i++) {
-                    const slot = data[day][i] || { s: '', t: '', e: '' };
-                    const colorClass = getColorClass(slot.s);
-                    const isLunch = slot.s === 'LUNCH';
-                    row.innerHTML += `<td class="${colorClass}" ondblclick="startEdit(this,'${day}',${i})">${isLunch ? '<div> LUNCH</div>' : `<div><strong>${escapeHtml(slot.s)}</strong><br><small>${escapeHtml(slot.t)}</small>${slot.e ? `<br><small style="color:#666">${slot.e}</small>` : ''}</div>`}<\/td>`;
+            const isEnhanced = (currentSection === 'C' || currentSection === 'D');
+
+            for (let day of days) {
+                if (!data[day]) continue;
+                let row = `<tr><td class="day-col">${day}</td>`;
+                for (let i = 0; i < 9; i++) {
+                    const slot = data[day][i] || { s: '', t: '', e: '', status: 'normal' };
+                    const color = getColorClass(slot.s);
+                    if (isEnhanced && slot.s !== "LUNCH" && slot.s !== "") {
+                        row += `<td class="${color}" ondblclick="editCellEnhanced('${day}',${i})" style="background-color:${color};">
+                                    <div class="subject-teacher-box">
+                                        <div>${escapeHtml(slot.s) || '—'} ${getStatusBadge(slot.status)}</div>
+                                        <div>${escapeHtml(slot.t)}</div>
+                                        <div>${escapeHtml(slot.e)}</div>
+                                    </div>
+                                    <div class="action-buttons">
+                                        <button class="action-btn leave" onclick="event.stopPropagation(); markLeave('${day}',${i})">📅 Leave</button>
+                                        <button class="action-btn extra" onclick="event.stopPropagation(); markExtra('${day}',${i})">➕ Extra</button>
+                                        <button class="action-btn exchange" onclick="event.stopPropagation(); openExchangeModal('${day}',${i})">🔄 Exchange</button>
+                                    </div>
+                                  </td>`;
+                    } else {
+                        row += `<td class="${color}" ondblclick="startEdit(this,'${day}',${i})"><div class="subject-teacher-box"><div><b>${escapeHtml(slot.s)||'—'}</b></div><div>${escapeHtml(slot.t)}</div><div>${escapeHtml(slot.e)}</div></div></td>`;
+                    }
                 }
-                tbody.appendChild(row);
-            });
+                row += `</tr>`;
+                tbody.innerHTML += row;
+            }
         }
-        
-        function startEdit(cell, day, idx) { if(editingCell === cell) return; const data = sectionsData[currentSection][day][idx]; if(data.s === 'LUNCH') return; editingCell = cell; cell.innerHTML = `<div><input type="text" value="${escapeHtml(data.s)}" class="edit-input" id="edit-sub"><input type="text" value="${escapeHtml(data.t)}" class="edit-input" id="edit-fac" style="margin-top:5px"><input type="text" value="${escapeHtml(data.e)}" class="edit-input" id="edit-ext" style="margin-top:5px"><div class="edit-buttons"><button class="save-btn" onclick="saveEdit('${day}',${idx})">Save</button><button class="cancel-btn" onclick="renderTimetable(); editingCell=null;">Cancel</button></div></div>`; document.getElementById('edit-sub')?.focus(); }
-        function saveEdit(day, idx) { const newSub = document.getElementById('edit-sub')?.value.trim() || ''; const newTeach = document.getElementById('edit-fac')?.value.trim() || ''; const newExtra = document.getElementById('edit-ext')?.value.trim() || ''; sectionsData[currentSection][day][idx] = { s: newSub, t: newTeach, e: newExtra }; renderTimetable(); editingCell = null; saveToStorage(); showToast('✅ Updated'); addNotification('Timetable Updated', `Section ${currentSection} updated`); }
-        function saveCurrentTimetable() { saveToStorage(); addNotification('Timetable Saved', `Section ${currentSection} saved`); showToast(' Saved'); }
-        function applyToAllSections() { const currentData = sectionsData[currentSection]; for(let sec of sections) sectionsData[sec] = JSON.parse(JSON.stringify(currentData)); saveToStorage(); renderTimetable(); addNotification('Applied', `Section ${currentSection} applied to all`); showToast('📤 Applied to all sections'); }
-        function saveToStorage() { localStorage.setItem('cse_timetable_sections', JSON.stringify(sectionsData)); localStorage.setItem('cse_sections', JSON.stringify(sections)); }
-        function loadFromStorage() { const saved = localStorage.getItem('cse_timetable_sections'); if(saved) sectionsData = JSON.parse(saved); const savedSections = localStorage.getItem('cse_sections'); if(savedSections) sections = JSON.parse(savedSections); else sections = ['A','B','C','D']; }
-        
-        // Faculty Functions
-        function renderFacultyTable() { const tbody = document.getElementById('facultyBody'); if(!tbody) return; tbody.innerHTML = ''; facultyList.forEach((fac, idx) => { const row = tbody.insertRow(); row.insertCell(0).innerText = fac.sno; const codeCell = row.insertCell(1); codeCell.innerText = fac.code; codeCell.style.cursor = 'pointer'; codeCell.ondblclick = () => editFacultyField(idx, 'code', codeCell); const nameCell = row.insertCell(2); nameCell.innerText = fac.name; nameCell.ondblclick = () => editFacultyField(idx, 'name', nameCell); const subCell = row.insertCell(3); subCell.innerText = fac.subject; subCell.ondblclick = () => editFacultyField(idx, 'subject', subCell); const contactCell = row.insertCell(4); contactCell.innerText = fac.contact; contactCell.ondblclick = () => editFacultyField(idx, 'contact', contactCell); const actionCell = row.insertCell(5); const delBtn = document.createElement('button'); delBtn.innerHTML = '<i data-lucide="trash-2"></i> Delete'; delBtn.className = 'delete-faculty-btn'; delBtn.onclick = () => { if(confirm('Delete?')) { facultyList.splice(idx,1); facultyList.forEach((f,i)=>f.sno=i+1); localStorage.setItem('cse_faculty_list', JSON.stringify(facultyList)); renderFacultyTable(); showToast('🗑️ Removed'); addNotification('Faculty Deleted', `${fac.name} removed`); lucide.createIcons(); } }; actionCell.appendChild(delBtn); }); setTimeout(() => lucide.createIcons(), 50); }
-        function editFacultyField(idx, field, cell) { const oldVal = facultyList[idx][field]; const input = document.createElement('input'); input.value = oldVal; input.style.cssText = 'width:100%;padding:6px;border:2px solid #facc15;border-radius:8px;'; cell.innerHTML = ''; cell.appendChild(input); input.focus(); const save = () => { const newVal = input.value.trim(); if(newVal) facultyList[idx][field] = newVal; localStorage.setItem('cse_faculty_list', JSON.stringify(facultyList)); renderFacultyTable(); showToast(`${field} updated`); addNotification('Faculty Updated', `${field} changed`); lucide.createIcons(); }; input.addEventListener('blur', save); input.addEventListener('keypress', (e) => { if(e.key === 'Enter') save(); }); }
-        function addNewFaculty() { facultyList.push({ sno: facultyList.length+1, code: "NEW", name: "New Teacher", subject: "Subject", contact: "0000000000" }); localStorage.setItem('cse_faculty_list', JSON.stringify(facultyList)); renderFacultyTable(); showToast('✅ New faculty added'); addNotification('Faculty Added', 'New faculty member created'); lucide.createIcons(); }
-        function refreshFacultyTable() { renderFacultyTable(); showToast('🔄 Refreshed'); }
-        
-        // Leave Portal Functions
-        function renderLeaveTimetable() {
-            const tbody = document.getElementById('leaveTimetableBody');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-            const days = ['MON','TUE','WED','THU','FRI'];
-            const data = sectionsData[currentLeaveSection];
-            days.forEach((day, dayIdx) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td class="day-col">${day}${'<\/td>'}`;
-                for(let i=0;i<9;i++) {
-                    const slot = data[day][i];
-                    const isLunch = slot.s === 'LUNCH';
-                    const editKey = `${currentLeaveSection}_${day}_${i}`;
-                    const hasReplacement = replacementEdits[editKey];
-                    const displayTeacher = hasReplacement ? hasReplacement.replacementTeacher : slot.t;
-                    const colorClass = getColorClass(slot.s);
-                    const editedClass = hasReplacement ? 'bg-edited' : '';
-                    if(isLunch) row.innerHTML += `<td class="bg-lunch" style="cursor:default;">🍽️ LUNCH<\/td>`;
-                    else row.innerHTML += `<td class="${colorClass} ${editedClass}" ondblclick="startLeaveEdit('${day}',${i},'${escapeHtml(slot.s)}','${escapeHtml(slot.t)}')"><div><strong>${escapeHtml(slot.s)}</strong><br><small>${escapeHtml(displayTeacher)}</small>${slot.e ? `<br><small style="color:#666">${slot.e}</small>` : ''}</div>${hasReplacement ? '<span style="font-size:9px;color:#d97706;">✏️ Replacement</span>' : ''}<\/td>`;
+
+        function editCellEnhanced(day, index) {
+            const slot = sectionsData[currentSection][day][index];
+            if (!slot || slot.s === "LUNCH") return;
+            let td = event.target.closest('td');
+            td.innerHTML = `<div><input class="inline-input" id="edit_sub" value="${escapeHtml(slot.s)}"><input class="inline-input" id="edit_teach" value="${escapeHtml(slot.t)}"><input class="inline-input" id="edit_extra" value="${escapeHtml(slot.e)}"><div class="button-group"><button class="save-btn" onclick="saveCellEnhanced('${day}',${index})">✅ SAVE</button><button class="reject-btn" onclick="renderTimetable()">❌ REJECT</button></div></div>`;
+            document.getElementById('edit_sub')?.focus();
+        }
+
+        function saveCellEnhanced(day, index) {
+            const newSub = document.getElementById('edit_sub')?.value || "";
+            const newTeach = document.getElementById('edit_teach')?.value || "";
+            const newExtra = document.getElementById('edit_extra')?.value || "";
+            sectionsData[currentSection][day][index] = { ...sectionsData[currentSection][day][index], s: newSub, t: newTeach, e: newExtra };
+            renderTimetable();
+            saveToLocalStorage();
+            showToast('✅ Changes SAVED', 'save');
+        }
+
+        function markLeave(day, index) {
+            const slot = sectionsData[currentSection][day][index];
+            if (!slot || slot.s === "LUNCH") { showToast("Cannot mark leave", "reject"); return; }
+            slot.status = slot.status === "leave" ? "normal" : "leave";
+            renderTimetable();
+            showToast(slot.status === "leave" ? `📝 Leave marked for ${slot.s}` : `✅ Leave cancelled`, slot.status === "leave" ? "leave" : "save");
+        }
+
+        function markExtra(day, index) {
+            const slot = sectionsData[currentSection][day][index];
+            if (!slot || slot.s === "LUNCH") { showToast("Cannot mark extra", "reject"); return; }
+            slot.status = slot.status === "extra" ? "normal" : "extra";
+            renderTimetable();
+            showToast(slot.status === "extra" ? `⭐ Extra class marked` : `✅ Extra cancelled`, slot.status === "extra" ? "extra" : "save");
+        }
+
+        function openExchangeModal(day, index) {
+            const slot = sectionsData[currentSection][day][index];
+            if (!slot || slot.s === "LUNCH") { showToast("Cannot exchange", "reject"); return; }
+            pendingExchange = { day, index };
+            const modal = document.getElementById('exchangeModal');
+            const daySelect = document.getElementById('exchangeDay');
+            const slotSelect = document.getElementById('exchangeSlot');
+            daySelect.innerHTML = '<option value="">Select Day</option>';
+            const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT"];
+            days.forEach(d => { if (d !== day) daySelect.innerHTML += `<option value="${d}">${d}</option>`; });
+            daySelect.onchange = function() {
+                const selectedDay = this.value;
+                slotSelect.innerHTML = '<option value="">Select Time Slot</option>';
+                if (selectedDay && sectionsData[currentSection][selectedDay]) {
+                    sectionsData[currentSection][selectedDay].forEach((s, idx) => { if (s.s && s.s !== "LUNCH") slotSelect.innerHTML += `<option value="${idx}">${idx+1}: ${s.s}</option>`; });
                 }
-                tbody.appendChild(row);
+            };
+            modal.style.display = "flex";
+        }
+
+        function confirmExchange() {
+            const targetDay = document.getElementById('exchangeDay').value;
+            const targetIndex = parseInt(document.getElementById('exchangeSlot').value);
+            if (!targetDay || isNaN(targetIndex)) { showToast("Invalid selection", "reject"); return; }
+            const sourceSlot = sectionsData[currentSection][pendingExchange.day][pendingExchange.index];
+            const targetSlot = sectionsData[currentSection][targetDay][targetIndex];
+            const temp = { ...sourceSlot };
+            Object.assign(sourceSlot, { ...targetSlot, status: "exchange" });
+            Object.assign(targetSlot, { ...temp, status: "exchange" });
+            renderTimetable();
+            closeModal();
+            showToast(`🔄 Exchanged`, "exchange");
+        }
+
+        function closeModal() { document.getElementById('exchangeModal').style.display = "none"; pendingExchange = { day: null, index: null }; }
+
+        function startEdit(cell, day, idx) {
+            if (editingCell === cell) return;
+            const slot = sectionsData[currentSection][day][idx];
+            if (slot.s === "LUNCH") return;
+            editingCell = cell;
+            cell.innerHTML = `<div><input id="editSub" value="${escapeHtml(slot.s)}" style="width:100%; padding:5px;"><input id="editTeach" value="${escapeHtml(slot.t)}" style="width:100%; padding:5px; margin-top:5px;"><input id="editExtra" value="${escapeHtml(slot.e)}" style="width:100%; padding:5px; margin-top:5px;"><div style="margin-top:5px;"><button onclick="saveEdit('${day}',${idx})" style="background:#10b981; color:white; padding:5px 10px; border:none; border-radius:15px;">Save</button> <button onclick="renderTimetable(); editingCell=null;" style="background:#ef4444; color:white; padding:5px 10px; border:none; border-radius:15px;">Cancel</button></div></div>`;
+            document.getElementById('editSub')?.focus();
+        }
+
+        function saveEdit(day, idx) {
+            const newSub = document.getElementById('editSub')?.value || "";
+            const newTeach = document.getElementById('editTeach')?.value || "";
+            const newExtra = document.getElementById('editExtra')?.value || "";
+            sectionsData[currentSection][day][idx] = { s: newSub, t: newTeach, e: newExtra };
+            renderTimetable();
+            editingCell = null;
+            saveToLocalStorage();
+            showToast('✅ Updated');
+        }
+
+        function selectSection(section) {
+            currentSection = section;
+            document.querySelectorAll('.section-btn').forEach(btn => { 
+                btn.classList.remove('active'); 
+                if (btn.getAttribute('data-section') === section) btn.classList.add('active'); 
             });
-            updateReplacementSummary();
+            renderTimetable();
+        }
+
+        function saveCurrentTimetable() { saveToLocalStorage(); showToast('💾 Timetable saved for Section ' + currentSection); }
+        
+        function sendToAllSections() { 
+            let data = sectionsData[currentSection]; 
+            for (let s of ['A','B','C','D']) { 
+                sectionsData[s] = JSON.parse(JSON.stringify(data)); 
+            } 
+            saveToLocalStorage(); 
+            renderTimetable();
+            showToast(`📤 Sent Section ${currentSection} to all`); 
         }
         
-        function startLeaveEdit(day, slotIndex, subject, currentTeacher) {
-            if(sectionsData[currentLeaveSection][day][slotIndex].s === 'LUNCH') { showToast('❌ Lunch cannot be edited', true); return; }
-            if(currentEditingCellLeave) renderLeaveTimetable();
-            const tbody = document.getElementById('leaveTimetableBody');
-            const dayIdx = ['MON','TUE','WED','THU','FRI'].indexOf(day);
-            const cell = tbody.children[dayIdx].children[slotIndex + 1];
-            currentEditingCellLeave = cell;
-            const editKey = `${currentLeaveSection}_${day}_${slotIndex}`;
-            const existing = replacementEdits[editKey];
-            const currentVal = existing ? existing.replacementTeacher : currentTeacher;
-            cell.innerHTML = `<div><input type="text" class="edit-input" id="leaveReplacementInput" value="${escapeHtml(currentVal)}" placeholder="Replacement Teacher"><div class="edit-buttons"><button class="save-btn" onclick="saveLeaveReplacement('${day}',${slotIndex},'${escapeHtml(subject)}')">Done</button><button class="cancel-btn" onclick="renderLeaveTimetable(); currentEditingCellLeave=null;">Cancel</button></div></div>`;
-            document.getElementById('leaveReplacementInput')?.focus();
+        function saveToLocalStorage() { 
+            localStorage.setItem('admin_timetable_sections', JSON.stringify(sectionsData)); 
+            localStorage.setItem('admin_faculty_list', JSON.stringify(facultyList)); 
+            localStorage.setItem('admin_leave_requests', JSON.stringify(leaveRequests)); 
         }
         
-        function saveLeaveReplacement(day, slotIndex, subject) {
-            const replacementTeacher = document.getElementById('leaveReplacementInput')?.value.trim();
-            if(!replacementTeacher) { showToast('❌ Enter replacement teacher', true); return; }
-            const editKey = `${currentLeaveSection}_${day}_${slotIndex}`;
-            const originalTeacher = sectionsData[currentLeaveSection][day][slotIndex].t;
-            const timeSlots = ["09:30-10:20","10:20-11:10","11:10-12:00","12:00-12:50","12:50-1:30","1:30-2:20","02:20-3:10","03:10-4:00","04:00-4:50"];
-            replacementEdits[editKey] = { day, slotIndex, timeSlot: timeSlots[slotIndex], subject, originalTeacher, replacementTeacher };
-            renderLeaveTimetable(); currentEditingCellLeave = null;
-            showToast(`✅ Replacement set: ${originalTeacher} → ${replacementTeacher}`);
-        }
-        
-        function updateReplacementSummary() {
-            const edits = Object.values(replacementEdits);
-            const summaryDiv = document.getElementById('replacementSummary');
-            const listDiv = document.getElementById('replacementList');
-            if(edits.length === 0) { summaryDiv.style.display = 'none'; return; }
-            summaryDiv.style.display = 'block';
-            listDiv.innerHTML = edits.map(edit => `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #e2e8f0;"><div><strong>${edit.day} ${edit.timeSlot}</strong><br><small>${edit.subject}</small></div><div><span style="color:#64748b;">${escapeHtml(edit.originalTeacher)}</span><br><span style="color:#d97706;">→ ${escapeHtml(edit.replacementTeacher)}</span></div></div>`).join('');
-        }
-        
-        function submitLeaveRequest() {
-            const teacher = document.getElementById('teacherName').value.trim();
-            const fromDate = document.getElementById('fromDate').value;
-            const toDate = document.getElementById('toDate').value;
-            const reason = document.getElementById('reason').value.trim();
-            const overallReplacement = document.getElementById('replacementName').value.trim();
-            if(!teacher || !fromDate || !toDate || !reason || !overallReplacement) { showToast('❌ Please fill all fields', true); return; }
-            const newRequest = { id: Date.now(), teacher, fromDate, toDate, reason, replacementTeacher: overallReplacement, section: currentLeaveSection, perClassReplacements: Object.values(replacementEdits), status: 'pending', rejectionReason: '', submittedAt: new Date().toLocaleString() };
-            leaveRequests.unshift(newRequest); localStorage.setItem('teacherLeaveRequests', JSON.stringify(leaveRequests));
-            addNotification('📝 Leave Request', `${teacher} submitted leave`);
-            document.getElementById('teacherName').value = ''; document.getElementById('fromDate').value = ''; document.getElementById('toDate').value = ''; document.getElementById('reason').value = ''; document.getElementById('replacementName').value = '';
-            replacementEdits = {}; renderLeaveTimetable(); renderMyLeaveRequests();
-            showToast('✅ Leave request submitted!');
-        }
-        
-        function deleteLeaveRequest(id) {
-            if(confirm('Delete this leave request?')) {
-                leaveRequests = leaveRequests.filter(r => r.id !== id);
-                localStorage.setItem('teacherLeaveRequests', JSON.stringify(leaveRequests));
-                renderMyLeaveRequests();
-                showToast('🗑️ Leave request deleted');
-                addNotification('Leave Deleted', 'A leave request was removed');
+        function loadFromLocalStorage() { 
+            const saved = localStorage.getItem('admin_timetable_sections'); 
+            if (saved) { 
+                const parsed = JSON.parse(saved); 
+                for (let sec of ['A','B','C','D']) {
+                    if (parsed[sec]) sectionsData[sec] = parsed[sec];
+                }
+            }
+            // Ensure sections have correct data even if localStorage is corrupted
+            if (!sectionsData.C || Object.keys(sectionsData.C).length === 0) {
+                sectionsData.C = JSON.parse(JSON.stringify(sectionCTimetableEnhanced));
+            }
+            if (!sectionsData.D || Object.keys(sectionsData.D).length === 0) {
+                sectionsData.D = JSON.parse(JSON.stringify(sectionDTimetableEnhanced));
             }
         }
         
-        function renderMyLeaveRequests() {
-            const container = document.getElementById('myLeaveRequests');
-            if(!container) return;
-            if(leaveRequests.length === 0) { container.innerHTML = '<div class="empty-state" style="padding:40px;text-align:center;color:#94a3b8;">No leave requests found</div>'; return; }
-            container.innerHTML = '';
-            leaveRequests.forEach(request => {
-                const statusClass = request.status === 'pending' ? 'status-pending' : (request.status === 'approved' ? 'status-approved' : 'status-rejected');
-                const perClassHtml = request.perClassReplacements?.length > 0 ? `<div style="margin-top:12px;background:#fff7ed;border-radius:12px;padding:12px;"><strong style="color:#d97706;">Per-Class Replacements:</strong><div style="margin-top:8px;">${request.perClassReplacements.map(r => `<div style="display:flex;justify-content:space-between;padding:4px 0;"><span>${r.day} ${r.timeSlot}<br><small>${r.subject}</small></span><span>${escapeHtml(r.originalTeacher)} → <strong>${escapeHtml(r.replacementTeacher)}</strong></span></div>`).join('')}</div></div>` : '';
-                container.innerHTML += `<div class="leave-card ${request.status}"><button class="delete-leave-btn" onclick="deleteLeaveRequest(${request.id})"><i data-lucide="trash-2"></i> Delete</button><div class="leave-header"><span class="teacher-name">${escapeHtml(request.teacher)}</span><span class="leave-dates">${request.fromDate} to ${request.toDate}</span><span class="status-badge ${statusClass}">${request.status.toUpperCase()}</span></div><div><strong>Reason:</strong> ${escapeHtml(request.reason)}</div><div><strong>Overall Replacement:</strong> ${escapeHtml(request.replacementTeacher)}</div><div><strong>Section:</strong> ${request.section || 'N/A'}</div>${perClassHtml}<div style="margin-top:10px;font-size:11px;color:#94a3b8;">Submitted: ${request.submittedAt}</div></div>`;
-            });
-            setTimeout(() => lucide.createIcons(), 50);
+        function renderFaculty() { 
+            let tbody = document.getElementById('facultyBody'); 
+            tbody.innerHTML = facultyList.map((f,i)=>`<tr><td>${i+1}</td><td ondblclick="editFacultyField(${i},'code')">${f.code}</td><td ondblclick="editFacultyField(${i},'name')">${f.name}</td><td ondblclick="editFacultyField(${i},'subject')">${f.subject}</td><td ondblclick="editFacultyField(${i},'contact')">${f.contact}</td></tr>`).join(''); 
         }
         
-        // Profile Functions
-        function updateProfileUI() { document.getElementById('profileAvatar').innerText = FacultyProfile.avatar; document.getElementById('dropdownAvatar').innerText = FacultyProfile.avatar; document.getElementById('dropdownName').innerText = FacultyProfile.name; document.getElementById('dropdownEmail').innerText = FacultyProfile.email; document.getElementById('profileNameText').innerText = FacultyProfile.name; }
-        function openEditProfileModal() { document.getElementById('editProfileModal').classList.add('show'); document.getElementById('editName').value = FacultyProfile.name; document.getElementById('editEmail').value = FacultyProfile.email; closeDropdowns(); }
-        function closeEditProfileModal() { document.getElementById('editProfileModal').classList.remove('show'); }
-        function saveProfile() { FacultyProfile.name = document.getElementById('editName').value; FacultyProfile.email = document.getElementById('editEmail').value; FacultyProfile.avatar = FacultyProfile.name.charAt(0).toUpperCase(); localStorage.setItem('FacultyProfile', JSON.stringify(FacultyProfile)); updateProfileUI(); closeEditProfileModal(); addNotification('Profile Updated', 'Profile updated'); showToast('✅ Profile updated'); }
-        function openChangePasswordModal() { document.getElementById('changePasswordModal').classList.add('show'); closeDropdowns(); }
-        function closeChangePasswordModal() { document.getElementById('changePasswordModal').classList.remove('show'); }
-        function changePassword() { const current = document.getElementById('currentPassword').value; const newPass = document.getElementById('newPassword').value; const confirm = document.getElementById('confirmPassword').value; if(!current || !newPass || !confirm) { showToast('❌ Fill all fields', true); return; } if(current !== FacultyProfile.password) { showToast('❌ Current password incorrect', true); return; } if(newPass !== confirm) { showToast('❌ Passwords do not match', true); return; } if(newPass.length < 6) { showToast('❌ Min 6 characters', true); return; } FacultyProfile.password = newPass; localStorage.setItem('FacultyProfile', JSON.stringify(FacultyProfile)); showToast('✅ Password changed'); addNotification('Password Changed', 'Password updated'); closeChangePasswordModal(); }
+        function editFacultyField(idx,field){ let val=prompt('Enter new value:',facultyList[idx][field]); if(val) facultyList[idx][field]=val; renderFaculty(); saveToLocalStorage(); showToast('✅ Updated'); }
+        function addNewFaculty(){ facultyList.push({code:"NEW",name:"New Teacher",subject:"Subject",contact:"0000000000"}); renderFaculty(); saveToLocalStorage(); showToast('✅ Added'); }
         
-        // Notification Functions
-        function addNotification(title, message) { notifications.unshift({ id: Date.now(), title, message, time: new Date().toISOString(), read: false }); if(notifications.length > 50) notifications.pop(); localStorage.setItem('timetable_notifications', JSON.stringify(notifications)); updateNotificationUI(); showToast(`🔔 ${title}`); }
-        function deleteNotification(id) { notifications = notifications.filter(n => n.id !== id); localStorage.setItem('timetable_notifications', JSON.stringify(notifications)); updateNotificationUI(); showToast('Notification deleted'); }
-        function deleteAllNotifications() { if(confirm('Delete all notifications?')) { notifications = []; localStorage.setItem('timetable_notifications', JSON.stringify(notifications)); updateNotificationUI(); showToast('All deleted'); } }
-        function updateNotificationUI() { const unreadCount = notifications.filter(n => !n.read).length; document.getElementById('notificationCount').innerText = unreadCount; const container = document.getElementById('notificationList'); if(container) container.innerHTML = notifications.length === 0 ? '<div style="padding:20px;text-align:center;">No notifications</div>' : notifications.map(n => `<div class="notification-item ${!n.read ? 'unread' : ''}" onclick="markAsRead(${n.id})"><div class="notification-title">${escapeHtml(n.title)}</div><div class="notification-message">${escapeHtml(n.message)}</div><div class="notification-time">${new Date(n.time).toLocaleString()}</div><button class="delete-notif-btn" onclick="event.stopPropagation(); deleteNotification(${n.id})"><i data-lucide="trash-2"></i></button></div>`).join(''); setTimeout(() => lucide.createIcons(), 50); }
-        function markAsRead(id) { const n = notifications.find(n => n.id === id); if(n) n.read = true; localStorage.setItem('timetable_notifications', JSON.stringify(notifications)); updateNotificationUI(); }
-        function markAllRead() { notifications.forEach(n => n.read = true); localStorage.setItem('timetable_notifications', JSON.stringify(notifications)); updateNotificationUI(); showToast('All marked read'); }
+        function renderLeaveRequests() { 
+            let container = document.getElementById('leaveRequestsContainer'); 
+            container.innerHTML = leaveRequests.map(req=>`<div class="leave-card ${req.status}"><div><b>${req.teacher}</b> <span class="status-badge status-${req.status}">${req.status}</span></div><div>📅 ${req.fromDate} to ${req.toDate}</div><div>💬 ${req.reason}</div><div>🔄 Replacement: ${req.replacement} (${req.replacementSubject})</div>${req.status==='pending'?`<div style="margin-top:10px;"><button class="approve-btn" onclick="approveLeave(${req.id})">Approve</button> <button class="reject-btn" onclick="rejectLeave(${req.id})">Reject</button></div>`:''}</div>`).join(''); 
+        }
         
-        // Tab switching
-        function switchToTimetable() { document.getElementById('timetableSection').style.display = 'block'; document.getElementById('facultySection').style.display = 'none'; document.getElementById('leaveSection').style.display = 'none'; document.getElementById('tabTimetable').classList.add('active'); document.getElementById('tabFaculty').classList.remove('active'); document.getElementById('tabLeave').classList.remove('active'); renderTimetable(); renderSectionSelector('timetableSectionSelector', false); lucide.createIcons(); }
-        function switchToFaculty() { document.getElementById('timetableSection').style.display = 'none'; document.getElementById('facultySection').style.display = 'block'; document.getElementById('leaveSection').style.display = 'none'; document.getElementById('tabFaculty').classList.add('active'); document.getElementById('tabTimetable').classList.remove('active'); document.getElementById('tabLeave').classList.remove('active'); renderFacultyTable(); lucide.createIcons(); }
-        function switchToLeave() { document.getElementById('timetableSection').style.display = 'none'; document.getElementById('facultySection').style.display = 'none'; document.getElementById('leaveSection').style.display = 'block'; document.getElementById('tabLeave').classList.add('active'); document.getElementById('tabTimetable').classList.remove('active'); document.getElementById('tabFaculty').classList.remove('active'); renderLeaveTimetable(); renderMyLeaveRequests(); renderSectionSelector('leaveSectionSelector', true); lucide.createIcons(); }
+        function approveLeave(id){ let req=leaveRequests.find(r=>r.id===id); if(req){ req.status='approved'; renderLeaveRequests(); saveToLocalStorage(); showToast(`✅ Leave approved`); } }
+        function rejectLeave(id){ let reason=prompt('Rejection reason:'); let req=leaveRequests.find(r=>r.id===id); if(req){ req.status='rejected'; req.rejectionReason=reason||'No reason'; renderLeaveRequests(); saveToLocalStorage(); showToast(`❌ Leave rejected`); } }
+        function createLeaveRequest(){ let teacher=prompt("Teacher name:"); if(!teacher) return; let from=prompt("From Date:"); let to=prompt("To Date:"); let reason=prompt("Reason:"); let rep=prompt("Replacement:"); let repSub=prompt("Subject:"); if(teacher&&from&&to&&reason){ leaveRequests.push({id:leaveRequests.length+1,teacher,fromDate:from,toDate:to,reason,replacement:rep,replacementSubject:repSub,status:'pending',rejectionReason:''}); renderLeaveRequests(); saveToLocalStorage(); showToast('📝 Request submitted'); } }
         
-        function closeDropdowns() { document.getElementById('profileDropdown').classList.remove('show'); document.getElementById('notificationDropdown').classList.remove('show'); }
-        function logout() { if(confirm('Logout?')) { showToast('👋 Logged out'); setTimeout(() => location.reload(), 1000); } }
+        function renderAllSections() { 
+            ['A','B','C','D'].forEach(sec=>{ 
+                let container=document.getElementById(`section${sec}Container`); 
+                if(container){ 
+                    let data=sectionsData[sec]; 
+                    let summary=`<div style="background:rgba(30,41,59,0.6); border-radius:20px; padding:20px;"><h3 style="color:#facc15;">Section ${sec}</h3><div style="font-size:12px;">`; 
+                    for(let day of ['MON','TUE','WED','THU','FRI']){ 
+                        summary+=`<strong>${day}:</strong> `; 
+                        let slots=data[day].filter(s=>s.s&&s.s!=='LUNCH').slice(0,3); 
+                        summary+=slots.map(s=>s.s).join(', ')+'<br>'; 
+                    } 
+                    summary+=`<button onclick="selectSection('${sec}'); switchPanel('timetable');" style="margin-top:10px; padding:6px 12px; background:#facc15; border:none; border-radius:15px; cursor:pointer;">✎ Edit</button></div></div>`; 
+                    container.innerHTML=summary; 
+                } 
+            }); 
+        }
         
-        // Event Listeners
-        document.getElementById('profileSection').addEventListener('click', (e) => { e.stopPropagation(); const dropdown = document.getElementById('profileDropdown'); closeDropdowns(); dropdown.classList.toggle('show'); });
-        document.getElementById('notificationBell').addEventListener('click', (e) => { e.stopPropagation(); const dropdown = document.getElementById('notificationDropdown'); closeDropdowns(); dropdown.classList.toggle('show'); updateNotificationUI(); });
-        document.getElementById('tabTimetable').addEventListener('click', switchToTimetable);
-        document.getElementById('tabFaculty').addEventListener('click', switchToFaculty);
-        document.getElementById('tabLeave').addEventListener('click', switchToLeave);
-        document.addEventListener('click', () => closeDropdowns());
+        function saveAllSections(){ saveToLocalStorage(); showToast('💾 All sections saved'); }
         
-        // Initialize
-        loadFromStorage(); updateProfileUI(); updateNotificationUI(); renderTimetable(); renderSectionSelector('timetableSectionSelector', false); renderSectionSelector('leaveSectionSelector', true); lucide.createIcons();
+        function switchPanel(panel) { 
+            document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active')); 
+            document.getElementById(`${panel}Panel`).classList.add('active'); 
+            document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active')); 
+            if(event.target) event.target.classList.add('active'); 
+            if(panel==='timetable') renderTimetable(); 
+            if(panel==='faculty') renderFaculty(); 
+            if(panel==='leave') renderLeaveRequests(); 
+            if(panel==='sections') renderAllSections(); 
+        }
         
-        window.selectSection = (sec) => { currentSection = sec; renderTimetable(); renderSectionSelector('timetableSectionSelector', false); };
-        window.startEdit = startEdit; window.saveEdit = saveEdit; window.saveCurrentTimetable = saveCurrentTimetable; window.applyToAllSections = applyToAllSections;
-        window.addNewFaculty = addNewFaculty; window.refreshFacultyTable = refreshFacultyTable;
-        window.startLeaveEdit = startLeaveEdit; window.saveLeaveReplacement = saveLeaveReplacement; window.submitLeaveRequest = submitLeaveRequest; window.deleteLeaveRequest = deleteLeaveRequest;
-        window.openEditProfileModal = openEditProfileModal; window.closeEditProfileModal = closeEditProfileModal; window.saveProfile = saveProfile;
-        window.openChangePasswordModal = openChangePasswordModal; window.closeChangePasswordModal = closeChangePasswordModal; window.changePassword = changePassword;
-        window.markAsRead = markAsRead; window.markAllRead = markAllRead; window.deleteAllNotifications = deleteAllNotifications; window.logout = logout;
+        window.switchPanel = switchPanel; 
+        window.selectSection = selectSection; 
+        window.startEdit = startEdit; 
+        window.saveEdit = saveEdit; 
+        window.editCellEnhanced = editCellEnhanced; 
+        window.saveCellEnhanced = saveCellEnhanced; 
+        window.markLeave = markLeave; 
+        window.markExtra = markExtra; 
+        window.openExchangeModal = openExchangeModal; 
+        window.confirmExchange = confirmExchange; 
+        window.closeModal = closeModal; 
+        window.saveCurrentTimetable = saveCurrentTimetable; 
+        window.sendToAllSections = sendToAllSections; 
+        window.editFacultyField = editFacultyField; 
+        window.addNewFaculty = addNewFaculty; 
+        window.approveLeave = approveLeave; 
+        window.rejectLeave = rejectLeave; 
+        window.createLeaveRequest = createLeaveRequest; 
+        window.saveAllSections = saveAllSections;
+        
+        loadFromLocalStorage();
+        renderTimetable();
+        renderFaculty();
+        renderLeaveRequests();
+        renderAllSections();
     </script>
 </body>
 </html>
