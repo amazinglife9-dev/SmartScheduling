@@ -214,11 +214,11 @@
 
         /* Dashboard Content */
         .dashboard-main { max-width: 1400px; margin: 0 auto; padding: 16px; }
-        
+
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 4fr);
             gap: 12px;
             margin-bottom: 20px;
         }
@@ -313,7 +313,7 @@
             font-weight: 700;
             width: 70px;
         }
-        
+
         /* Color Classes from second code */
         .bg-oopj { background: #FFF2CC; }
         .bg-tafl { background: #FCE4D6; }
@@ -324,7 +324,7 @@
         .bg-dsj { background: #FFFFFF; }
         .bg-maths { background: #E2E3E5; }
         .bg-lunch { background: #FFEBCC; }
-        
+
         .subject { font-weight: 700; color: #1e3a5f; font-size: 11px; display: block; }
         .teacher { color: #e76f51; font-size: 9px; display: block; }
         .room { color: #2a9d8f; font-size: 9px; display: block; }
@@ -549,11 +549,12 @@
         <div class="stats-grid">
             <div class="stat-card"><div class="stat-info"><h4>Total Lectures</h4><div class="stat-value">38</div></div><div class="stat-icon"><i data-lucide="book-open" width="22" height="22"></i></div></div>
             <div class="stat-card"><div class="stat-info"><h4>Today's Lectures</h4><div class="stat-value" id="todayCount">8</div></div><div class="stat-icon"><i data-lucide="calendar" width="22" height="22"></i></div></div>
-            <div class="stat-card"><div class="stat-info"><h4>Next Lecture</h4><div class="stat-value" id="nextLecture">10:20 AM</div></div><div class="stat-icon"><i data-lucide="clock" width="22" height="22"></i></div></div>
+            <div class="stat-card"><div class="stat-info"><h4>Present Lecture</h4><p>OOP / Mr.Amol sharma / F-104</p><div class="stat-value" id="presentLecture">10:20 AM - 11:10 AM</div></div><div class="stat-icon"><i data-lucide="clock" width="22" height="22"></i></div></div>
+            <div class="stat-card"><div class="stat-info"><h4>Next Lecture</h4><p>CYS / Mr. Rishu Jain / F-210</p><div class="stat-value" id="nextLecture">11:10 AM - 12:00 PM</div></div><div class="stat-icon"><i data-lucide="clock" width="22" height="22"></i></div></div>
         </div>
 
         <div class="welcome-banner">
-            <h3 id="welcomeMsg">Welcome, Rahul! </h3>
+            <h3 id="welcomeMsg">Welcome, Rahul!</h3>
             <p>Stay updated with your daily schedule</p>
             <div class="current-time" id="currentTimeDisplay"></div>
         </div>
@@ -562,7 +563,7 @@
         <div class="timetable-card">
             <div class="card-header">
                 <h3><i data-lucide="calendar" width="16" height="16"></i> Weekly Timetable</h3>
-                <div class="today-badge" id="todayBadge">Today: Monday</div>
+                <div class="today-badge" id="todayBadge">Today: monday</div>
             </div>
             <div class="timetable-wrapper">
                 <table class="timetable" id="mainTimetable">
@@ -627,11 +628,11 @@
 
     <script>
         lucide.createIcons();
-        
+
         // ========== TIMETABLE DATA - From Second Code (Colorful & Complete) ==========
         const days = ['MON', 'TUE', 'WED', 'THU', 'FRI'];
         const timeSlots = ["09:30-10:20", "10:20-11:10", "11:10-12:00", "12:00-12:50", "12:50-1:30", "1:30-2:20", "02:20-3:10", "03:10-4:00", "04:00-4:50"];
-        
+
         // Complete colorful timetable data from second code
         const defaultTimetable = {
             "MON": [
@@ -666,7 +667,7 @@
                 { s: "ESE / MATHS", t: "Ms. Rishu Jain", e: "F-210" }, { s: "CSW-G2", t: "Mr. Mayank Parashar", e: "F-406A" }, { s: "", t: "", e: "" }
             ]
         };
-        
+
         // Get color class based on subject (from second code)
         function getColorClass(subject) {
             if(!subject) return '';
@@ -682,12 +683,12 @@
             if(s.includes('ESE') || s.includes('MATHS')) return 'bg-maths';
             return '';
         }
-        
+
         function escapeHtml(str) {
             if(!str) return '';
             return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'})[m]);
         }
-        
+
         // Get current lecture for highlighting
         function getCurrentLecture() {
             const now = new Date();
@@ -706,14 +707,14 @@
             }
             return null;
         }
-        
+
         // Render Colorful Timetable (Non-Editable)
         function renderTimetable() {
             const tbody = document.getElementById('timetableBody');
             if(!tbody) return;
             tbody.innerHTML = '';
             const current = getCurrentLecture();
-            
+
             for(let day of days) {
                 const row = document.createElement('tr');
                 row.innerHTML = `<td class="day-col">${day}${'<\/td>'}`;
@@ -724,7 +725,7 @@
                     const colorClass = getColorClass(slot.s);
                     const isCurrent = current && current.day === day && current.slot === i;
                     const currentClass = isCurrent ? 'current-lecture' : '';
-                    
+
                     if(isLunch) {
                         row.innerHTML += `<td class="${colorClass} ${currentClass}" style="font-size:11px;">
                              LUNCH
@@ -739,28 +740,28 @@
                 }
                 tbody.appendChild(row);
             }
-            
+
             // Update today's lecture count
             const today = ['MON','TUE','WED','THU','FRI'][new Date().getDay()-1];
             if(today && defaultTimetable[today]) {
                 let count = defaultTimetable[today].filter(s => s && s.s !== 'LUNCH' && s.s !== '').length;
                 document.getElementById('todayCount').innerText = count;
             }
-            
+
             // Update next lecture info
             const next = getCurrentLecture();
             if(next && defaultTimetable[next.day][next.slot]) {
                 document.getElementById('nextLecture').innerText = defaultTimetable[next.day][next.slot].s;
             }
         }
-        
+
         // ========== NOTIFICATIONS ==========
         let notifications = [
-            { id: 1, title: "📅 Timetable Updated", time: "Today, 10:30 AM", desc: "New timetable for even semester has been published." },
+            { id: 1, title: " Timetable Updated", time: "Today, 10:30 AM", desc: "New timetable for even semester has been published." },
             { id: 2, title: " Room Change", time: "Yesterday, 4:00 PM", desc: "OS lab moved to F-404A from next week." },
-            { id: 3, title: "📝 Assignment Deadline", time: "Yesterday, 9:00 AM", desc: "OOPJ assignment submission by Friday." }
+            { id: 3, title: " Assignment Deadline", time: "Yesterday, 9:00 AM", desc: "OOPJ assignment submission by Friday." }
         ];
-        
+
         function renderNotifications() {
             let container = document.getElementById('notifList');
             if(container) {
@@ -775,19 +776,19 @@
             }
             document.getElementById('notifBadge').innerText = notifications.length;
         }
-        
+
         function deleteNotification(id) {
             notifications = notifications.filter(n => n.id !== id);
             renderNotifications();
         }
-        
+
         function updateDateTime() {
             let now = new Date();
             document.getElementById('currentTimeDisplay').innerHTML = `📅 ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
             let dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
             document.getElementById('todayBadge').innerHTML = `Today: ${dayNames[now.getDay()]}`;
         }
-        
+
         // ========== PROFILE DATA ==========
         let studentData = {
             name: "Rahul Sharma",
@@ -797,7 +798,7 @@
             section: "D",
             batchYear: "2024-2028"
         };
-        
+
         function updateProfileUI() {
             let firstLetter = studentData.name.charAt(0).toUpperCase();
             document.getElementById('dashName').innerText = studentData.name;
@@ -811,7 +812,7 @@
             document.getElementById('batchValue').innerText = studentData.batchYear;
             document.getElementById('welcomeMsg').innerHTML = `Welcome, ${studentData.name.split(' ')[0]}! 👋`;
         }
-        
+
         // ========== EVENT LISTENERS ==========
         // Profile Dropdown
         const profileDropdown = document.getElementById('profileDropdown');
@@ -822,7 +823,7 @@
         document.addEventListener('click', (e) => {
             if(!profileDropdown.contains(e.target)) profileDropdown.classList.remove('open');
         });
-        
+
         // Notifications Panel
         document.getElementById('notifIcon').addEventListener('click', () => {
             document.getElementById('notifPanel').classList.add('open');
@@ -836,7 +837,7 @@
             document.getElementById('notifPanel').classList.remove('open');
             document.getElementById('overlay').classList.remove('active');
         });
-        
+
         // Edit Profile Modal
         const editProfileModal = document.getElementById('editProfileModal');
         document.getElementById('openEditProfileBtn').addEventListener('click', () => {
@@ -857,7 +858,7 @@
             let newSemester = document.getElementById('editSemester').value.trim();
             let newSection = document.getElementById('editSection').value.trim();
             let newBatch = document.getElementById('editBatch').value.trim();
-            
+
             if(newName) studentData.name = newName;
             if(newEmail) studentData.email = newEmail;
             if(newRollNo) studentData.rollNo = newRollNo;
@@ -867,12 +868,12 @@
             }
             if(newSection) studentData.section = newSection.toUpperCase();
             if(newBatch) studentData.batchYear = newBatch;
-            
+
             updateProfileUI();
             editProfileModal.classList.remove('active');
             alert('Profile updated successfully!');
         });
-        
+
         // Change Password Modal
         const changePasswordModal = document.getElementById('changePasswordModal');
         document.getElementById('openChangePasswordBtn').addEventListener('click', () => {
@@ -894,7 +895,7 @@
             let currentPass = document.getElementById('currentPassword').value;
             let newPass = document.getElementById('newPassword').value;
             let confirmPass = document.getElementById('confirmNewPassword').value;
-            
+
             if(!currentPass || !newPass || !confirmPass) {
                 alert('Please fill all fields');
                 return;
@@ -913,7 +914,7 @@
             document.getElementById('newPassword').value = '';
             document.getElementById('confirmNewPassword').value = '';
         });
-        
+
         // Logout
         document.getElementById('logoutBtn').addEventListener('click', () => {
             if(confirm('Are you sure you want to logout?')) {
@@ -921,7 +922,7 @@
                 location.reload();
             }
         });
-        
+
         // ========== INITIALIZE ==========
         updateProfileUI();
         renderTimetable();
@@ -929,7 +930,7 @@
         updateDateTime();
         setInterval(updateDateTime, 60000);
         setInterval(renderTimetable, 60000);
-        
+
         // Make functions global for onclick
         window.deleteNotification = deleteNotification;
     </script>
